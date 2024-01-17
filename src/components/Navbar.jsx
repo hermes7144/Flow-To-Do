@@ -2,6 +2,7 @@ import React from 'react'
 import { TbClock2 } from "react-icons/tb";
 import { Link } from 'react-router-dom';
 import { GoGraph } from "react-icons/go";
+import { login } from '../api/firebase';
 
 export default function Navbar() {
   return (
@@ -14,7 +15,7 @@ export default function Navbar() {
           <Link to='/report' className='text-2xl'>
             <GoGraph />
           </Link>
-        <button>Login</button>
+        <button onClick={login}>Login</button>
         </nav>
     </header>
 
