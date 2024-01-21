@@ -45,22 +45,29 @@ export function onUserStateChange(callback) {
 export async function getTodos(userId) {
   return get(ref(database, `todos/${userId}`)).then((snapshot) => {
     const items = snapshot.val() || {};
-    return Object.values(items);
+
+    const sortedItems = Object.values(items).sort(
+      (a, b) => b.createdDate - a.createdDate
+    );
+
+    return sortedItems;
   });
 }
 
-export async function addNewTodo(userId, name) {
+export async function addNewTodo(uid, todo) {
   const id = uuid();
 
-  set(ref(database, `todos/${userId}/${id}`), {
+  set(ref(database, `todos/${uid}/${id}`), {
+    ...todo,
     id,
-    name,
     status: 'active',
-    dealine: '2024-01-21',
     done: 0,
-    estimate: 0,
     createdDate: serverTimestamp(),
   });
+}
+
+export async function editTodo(uid, todo) {
+  return set(ref(database, `todos/${uid}/${todo.id}`), todo);
 }
 
 export async function removeTodo(userId, todoId) {
