@@ -11,11 +11,11 @@ export default function TodoList() {
   if (isLoading) return <p>Loading...</p>;
   const hasTodos = todos && todos.length > 0;
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col pb-20'>
       <AddTodo />
       {!hasTodos && <p>할 일 목록이 없습니다.</p>}
       {hasTodos && (
-        <ul className='flex-1 overflow-y-auto '>
+        <ul className='flex-1  '>
           {todos && todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
         </ul>
       )}
