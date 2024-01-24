@@ -42,8 +42,10 @@ export function onUserStateChange(callback) {
   });
 }
 
-export async function getTodos(userId) {
-  return get(ref(database, `todos/${userId}`)).then((snapshot) => {
+export async function getTodos(uid) {
+  console.log('uid', uid);
+
+  return get(ref(database, `todos/${uid}`)).then((snapshot) => {
     const items = snapshot.val() || {};
 
     const sortedItems = Object.values(items).sort(
@@ -70,6 +72,45 @@ export async function editTodo(uid, todo) {
   return set(ref(database, `todos/${uid}/${todo.id}`), todo);
 }
 
-export async function removeTodo(userId, todoId) {
-  return remove(ref(database, `todos/${userId}/${todoId}`));
+export async function removeTodo(uid, todoId) {
+  return remove(ref(database, `todos/${uid}/${todoId}`));
+}
+
+export async function getPomodoro(uid) {
+  const date = getDate();
+  return get(ref(database, `pomodoroCounts/${uid}/${date}`)).then(
+    (snapshot) => {
+      const items = snapshot.val() || 0;
+      return items;
+    }
+  );
+}
+
+export async function setPomodoro(uid) {
+  const userPomodoroCountRef = ref(
+    database,
+    `pomodoroCounts/${uid}/${getDate()}`
+  );
+
+  try {
+    const snapshot = await get(userPomodoroCountRef);
+    const pomodoroCount = snapshot.val() || 0;
+
+    console.log(pomodoroCount);
+
+    // 값이 없으면 1을 설정하고, 이미 값이 있다면 1을 더합니다.
+    await set(userPomodoroCountRef, pomodoroCount + 1);
+  } catch (error) {
+    console.error('뽀모도로 횟수를 설정하는 중 오류 발생:', error);
+  }
+}
+
+function getDate() {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}${(
+    currentDate.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}`;
+  return formattedDate;
 }

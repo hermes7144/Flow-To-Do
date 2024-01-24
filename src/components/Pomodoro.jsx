@@ -4,8 +4,12 @@ import {
   FaRegPlayCircle,
   FaRegStopCircle,
 } from 'react-icons/fa';
+import { useAuthContext } from '../context/AuthContext';
+import usePomodoro from '../hooks/usePomodoro';
 
 export default function Pomodoro() {
+  const { uid } = useAuthContext();
+  const { addPomodoro } = usePomodoro();
   // const POMODORO_TIME = 25 * 60;
   const POMODORO_TIME = 2;
   const REST_TIME = 5 * 60;
@@ -22,6 +26,7 @@ export default function Pomodoro() {
         if (seconds > 0) {
           setSeconds((prev) => prev - 1);
         } else {
+          addPomodoro.mutate();
           setIsRunning(false);
           clearInterval(timer);
         }
@@ -31,7 +36,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, seconds]);
+  }, [uid, isRunning, seconds]);
 
   useEffect(() => {
     let timer;
