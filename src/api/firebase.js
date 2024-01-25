@@ -43,8 +43,6 @@ export function onUserStateChange(callback) {
 }
 
 export async function getTodos(uid) {
-  console.log('uid', uid);
-
   return get(ref(database, `todos/${uid}`)).then((snapshot) => {
     const items = snapshot.val() || {};
 
@@ -86,23 +84,9 @@ export async function getPomodoro(uid) {
   );
 }
 
-export async function setPomodoro(uid) {
-  const userPomodoroCountRef = ref(
-    database,
-    `pomodoroCounts/${uid}/${getDate()}`
-  );
-
-  try {
-    const snapshot = await get(userPomodoroCountRef);
-    const pomodoroCount = snapshot.val() || 0;
-
-    console.log(pomodoroCount);
-
-    // 값이 없으면 1을 설정하고, 이미 값이 있다면 1을 더합니다.
-    await set(userPomodoroCountRef, pomodoroCount + 1);
-  } catch (error) {
-    console.error('뽀모도로 횟수를 설정하는 중 오류 발생:', error);
-  }
+export async function setPomodoro(uid, pomodoro) {
+  const date = getDate();
+  await set(ref(database, `pomodoroCounts/${uid}/${date}`), pomodoro + 1);
 }
 
 function getDate() {

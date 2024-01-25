@@ -7,8 +7,9 @@ import { useAuthContext } from '../context/AuthContext';
 export default function Home() {
   const { uid } = useAuthContext();
 
+  if (uid === null) return <p>로딩중...</p>;
   return (
-    <div className='p-5  relative h-dvh'>
+    <div className='p-5 relative h-dvh'>
       {uid && (
         <>
           <PomodoroDashBoard />
