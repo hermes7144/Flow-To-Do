@@ -6,7 +6,7 @@ export default function useTodos() {
   const { uid } = useAuthContext();
   const queryClient = useQueryClient();
   const productsQuery = useQuery({
-    queryKey: ['todos'],
+    queryKey: ['todos', uid],
     queryFn: () => getTodos(uid),
   });
   const addTodo = useMutation({
@@ -14,7 +14,7 @@ export default function useTodos() {
       addNewTodo(uid, todo);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
+      queryClient.invalidateQueries(['todos', uid]);
     },
   });
   const updateTodo = useMutation({
@@ -22,7 +22,7 @@ export default function useTodos() {
       editTodo(uid, todo);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
+      queryClient.invalidateQueries(['todos', uid]);
     },
   });
 
@@ -31,7 +31,7 @@ export default function useTodos() {
       removeTodo(uid, todoId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
+      queryClient.invalidateQueries(['todos', uid]);
     },
   });
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import useTodos from '../hooks/useTodos';
-import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { CiCalendar } from 'react-icons/ci';
@@ -13,7 +12,6 @@ export default function AddTodo() {
   const [estimate, setEstimate] = useState(0);
 
   const handleSubmit = (e) => {
-    console.log('1211212');
     e.preventDefault();
 
     if (!input) return;
@@ -39,19 +37,9 @@ export default function AddTodo() {
     setInput(e.target.value);
   };
 
-  const handleDateChange = (date) => {
-    setDeadline(date);
-  };
-
   const handleEstimate = (e) => {
     setEstimate(e.target.value);
   };
-
-  const CustomDatePickerInput = ({ value, onClick }) => (
-    <button type='button' className='custom-datepicker-input' onClick={onClick}>
-      {value || <CiCalendar className='w-4 h-4 ml-3 mt-1' />}
-    </button>
-  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -63,14 +51,14 @@ export default function AddTodo() {
           onChange={handleChange}
           placeholder='+ 할 일 추가'
         />
-        <div className='flex items-center gap-[2px]'>
-          <div className='w-10 bg-white'></div>
-          <div className='flex bg-white text-gray-300 gap-1 text-lg mr-2'>
+        <div className='w-[1px] h-4 bg-slate-500 mx-2'></div>
+        <div className='flex items-center'>
+          <div className='flex bg-white text-gray-300 gap-1 text-lg mr-2 opacity-50'>
             <FaStopwatch
               className={`hover:cursor-pointer ${
                 estimate >= 1 ? 'text-brand' : ''
               }`}
-              onClick={() => setEstimate(1)}
+              onClick={() => (estimate === 1 ? setEstimate(0) : setEstimate(1))}
             />
             <FaStopwatch
               className={`hover:cursor-pointer ${
@@ -95,16 +83,6 @@ export default function AddTodo() {
                 estimate >= 5 ? 'text-brand' : ''
               }`}
               onClick={() => setEstimate(5)}
-            />
-          </div>
-          <div className='w-[1px] h-4 bg-slate-500'></div>
-          <div className='w-12 pl-1 my-1'>
-            <DatePicker
-              selected={deadline}
-              onChange={handleDateChange}
-              customInput={<CustomDatePickerInput />}
-              dateFormat='MM/dd'
-              showPopperArrow={false}
             />
           </div>
         </div>

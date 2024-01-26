@@ -1,23 +1,29 @@
 import React from 'react';
 import AddTodo from './AddTodo';
 import TodoItem from './TodoItem';
-import useTodos from '../hooks/useTodos';
 
-export default function TodoList() {
-  const {
-    productsQuery: { isLoading, error, data: todos },
-  } = useTodos();
-
-  if (isLoading) return <p>Loading...</p>;
-  const hasTodos = todos && todos.length > 0;
+export default function TodoList({ activeTodo, completedTodo }) {
+  const hasTodos = activeTodo && activeTodo.length > 0;
   return (
     <div className='flex flex-col pb-20'>
-      <AddTodo />
+      <span>오늘</span>
       {!hasTodos && <p>할 일 목록이 없습니다.</p>}
-      {hasTodos && (
+      {activeTodo && (
         <ul className='flex-1  '>
-          {todos && todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+          {activeTodo.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} />
+          ))}
         </ul>
+      )}
+      {completedTodo && (
+        <div>
+          <span>완료한 할일</span>
+          <ul className='flex-1'>
+            {completedTodo.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} />
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
