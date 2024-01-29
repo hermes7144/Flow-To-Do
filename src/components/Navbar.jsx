@@ -11,7 +11,7 @@ export default function Navbar() {
     <header className='flex justify-between border-b border-gray-300 p-2 font-semibold bg-white'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
         <TbClock2 />
-        <h1>Focus To-Do</h1>
+        <h1 className='hidden md:block'>Focus To-Do</h1>
       </Link>
       <nav className='flex items-center gap-4'>
         <Link to='/report' className='text-2xl'>

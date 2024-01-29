@@ -19,6 +19,8 @@ export default function useTodos() {
   });
   const updateTodo = useMutation({
     mutationFn: (todo) => {
+      console.log(todo);
+
       editTodo(uid, todo);
     },
     onSuccess: () => {

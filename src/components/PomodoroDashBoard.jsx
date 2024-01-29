@@ -5,9 +5,9 @@ export default function PomodoroDashBoard({ activeCount, completedCount }) {
   const {
     pomodoroQuery: { isLoading, data: pomodoro },
   } = usePomodoro();
+  const POMODORO_TIME = 25;
 
   if (isLoading) return <p>로딩중...</p>;
-
   return (
     <div className='w-full bg-white h-16 rounded-lg flex justify-around'>
       <div className='flex flex-col items-center justify-center'>
@@ -28,7 +28,7 @@ export default function PomodoroDashBoard({ activeCount, completedCount }) {
       <div className='flex flex-col items-center justify-center'>
         <div>
           <span className='text-brand text-3xl font-semibold'>
-            {pomodoro * 25}
+            {pomodoro * POMODORO_TIME}
           </span>
           <span className='text-gray-400 text-sm'>분</span>
         </div>

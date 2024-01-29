@@ -8,7 +8,6 @@ import { FaClock, FaStopwatch, FaTimes } from 'react-icons/fa';
 export default function AddTodo() {
   const { addTodo } = useTodos();
   const [input, setInput] = useState('');
-  const [deadline, setDeadline] = useState(null);
   const [estimate, setEstimate] = useState(0);
 
   const handleSubmit = (e) => {
@@ -29,7 +28,6 @@ export default function AddTodo() {
     };
     addTodo.mutate(todo);
     setInput('');
-    setDeadline(null);
     setEstimate(0);
   };
 
@@ -37,8 +35,8 @@ export default function AddTodo() {
     setInput(e.target.value);
   };
 
-  const handleEstimate = (e) => {
-    setEstimate(e.target.value);
+  const handleEstimate = (pomodoro) => {
+    setEstimate(pomodoro);
   };
 
   return (
@@ -58,31 +56,33 @@ export default function AddTodo() {
               className={`hover:cursor-pointer ${
                 estimate >= 1 ? 'text-brand' : ''
               }`}
-              onClick={() => (estimate === 1 ? setEstimate(0) : setEstimate(1))}
+              onClick={() =>
+                estimate === 1 ? handleEstimate(0) : handleEstimate(1)
+              }
             />
             <FaStopwatch
               className={`hover:cursor-pointer ${
                 estimate >= 2 ? 'text-brand' : ''
               }`}
-              onClick={() => setEstimate(2)}
+              onClick={() => handleEstimate(2)}
             />
             <FaStopwatch
               className={`hover:cursor-pointer ${
                 estimate >= 3 ? 'text-brand' : ''
               }`}
-              onClick={() => setEstimate(3)}
+              onClick={() => handleEstimate(3)}
             />
             <FaStopwatch
               className={`hover:cursor-pointer ${
                 estimate >= 4 ? 'text-brand' : ''
               }`}
-              onClick={() => setEstimate(4)}
+              onClick={() => handleEstimate(4)}
             />
             <FaStopwatch
               className={`hover:cursor-pointer ${
                 estimate >= 5 ? 'text-brand' : ''
               }`}
-              onClick={() => setEstimate(5)}
+              onClick={() => handleEstimate(5)}
             />
           </div>
         </div>
