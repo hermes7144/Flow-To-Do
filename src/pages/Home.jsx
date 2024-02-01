@@ -6,6 +6,7 @@ import { useAuthContext } from '../context/AuthContext';
 import useTodos from '../hooks/useTodos';
 import { getDate } from '../js/CommonFunction';
 import AddTodo from '../components/AddTodo';
+import { SyncLoader } from 'react-spinners';
 
 export default function Home() {
   const { uid } = useAuthContext();
@@ -14,7 +15,12 @@ export default function Home() {
     productsQuery: { isLoading, error, data: todos },
   } = useTodos();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div className='flex items-center justify-center h-dvh overflow-y-hidden  overflow-x-hidden'>
+        <SyncLoader color='#fe5a4a' />
+      </div>
+    );
 
   const activeTodo = todos.filter(
     (todo) => todo.status === 'active' && todo.deadline <= getDate()
@@ -26,17 +32,18 @@ export default function Home() {
 
   return (
     <div className='p-5 relative h-dvh'>
-      {uid && (
+      {uid ? (
         <>
           <PomodoroDashBoard
             activeCount={activeTodo.length}
             completedCount={completedTodo.length}
           />
           <AddTodo />
-
           <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />
           <Pomodoro />
         </>
+      ) : (
+        <>랜딩페이지</>
       )}
     </div>
   );
