@@ -72,7 +72,7 @@ export default function Pomodoro() {
   const handleRestPause = () => setIsRestRunning(false);
 
   return seconds > 0 ? (
-    <div className='fixed p-1 h-16 top-auto -ml-20 bottom-10 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-40 text-white gap-1'>
+    <div className='fixed m-2 h-16 -ml-20 bottom-10 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
         {isRunning ? (
@@ -92,7 +92,7 @@ export default function Pomodoro() {
       </div>
 
       {runningTodo?.name && (
-        <p className='mx-1 w-36 truncate ...'>{runningTodo?.name}</p>
+        <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>
       )}
     </div>
   ) : (
