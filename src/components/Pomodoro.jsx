@@ -72,24 +72,27 @@ export default function Pomodoro() {
   const handleRestPause = () => setIsRestRunning(false);
 
   return seconds > 0 ? (
-    <div className='fixed p-3  h-14 top-auto -ml-36 sm:-ml-20 bottom-10 left-1/2 bg-brand rounded-xl flex justify-around items-center min-w-28 text-white'>
-      <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
+    <div className='fixed p-1 h-16 top-auto -ml-20 bottom-10 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-40 text-white gap-1'>
+      <div className='flex justify-around items-center'>
+        <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
+        {isRunning ? (
+          <button onClick={handlePause}>
+            <FaRegPauseCircle className='w-7 h-7 font-semibold' />
+          </button>
+        ) : (
+          <button onClick={handleStart}>
+            <FaRegPlayCircle className='w-7 h-7 font-semibold' />
+          </button>
+        )}
+        {!isRunning && seconds !== POMODORO_TIME && (
+          <button onClick={handleReset}>
+            <FaRegStopCircle className='w-5 h-5' />
+          </button>
+        )}
+      </div>
+
       {runningTodo?.name && (
-        <span className='mx-5 w-40 truncate ...'>{runningTodo?.name}</span>
-      )}
-      {isRunning ? (
-        <button onClick={handlePause}>
-          <FaRegPauseCircle className='w-7 h-7 font-semibold' />
-        </button>
-      ) : (
-        <button onClick={handleStart}>
-          <FaRegPlayCircle className='w-7 h-7 font-semibold' />
-        </button>
-      )}
-      {!isRunning && seconds !== POMODORO_TIME && (
-        <button onClick={handleReset}>
-          <FaRegStopCircle className='w-5 h-5' />
-        </button>
+        <p className='mx-1 w-36 truncate ...'>{runningTodo?.name}</p>
       )}
     </div>
   ) : (
