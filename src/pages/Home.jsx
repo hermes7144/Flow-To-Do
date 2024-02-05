@@ -9,8 +9,6 @@ import AddTodo from '../components/AddTodo';
 import { SyncLoader } from 'react-spinners';
 
 export default function Home() {
-  const { uid } = useAuthContext();
-
   const {
     productsQuery: { isLoading, error, data: todos },
   } = useTodos();
@@ -32,19 +30,15 @@ export default function Home() {
 
   return (
     <div className='p-5 relative h-dvh'>
-      {uid ? (
-        <>
-          <PomodoroDashBoard
-            activeCount={activeTodo.length}
-            completedCount={completedTodo.length}
-          />
-          <AddTodo />
-          <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />
-          <Pomodoro />
-        </>
-      ) : (
-        <>랜딩페이지</>
-      )}
+      <>
+        <PomodoroDashBoard
+          activeCount={activeTodo.length}
+          completedCount={completedTodo.length}
+        />
+        <AddTodo />
+        <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />
+        <Pomodoro />
+      </>
     </div>
   );
 }

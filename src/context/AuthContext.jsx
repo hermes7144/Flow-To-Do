@@ -6,16 +6,18 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState();
+  const [isAuthLoading, setisAuthLoading] = useState(true);
 
   useEffect(() => {
     onUserStateChange((user) => {
       setUser(user);
+      setisAuthLoading(false);
     });
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, uid: user && user.uid, login, logout }}
+      value={{ user, uid: user && user.uid, login, logout, isAuthLoading }}
     >
       {children}
     </AuthContext.Provider>

@@ -5,8 +5,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import NotFound from './pages/NotFound';
-import Home from './pages/Home';
 import Report from './pages/Report';
+import Index from './pages/Index';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, path: '/', element: <Home /> },
+      { index: true, path: '/', element: <Index /> },
       { path: '/report', element: <Report /> },
     ],
   },
