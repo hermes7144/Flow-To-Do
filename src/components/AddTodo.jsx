@@ -38,6 +38,7 @@ export default function AddTodo() {
   const handleEstimate = (pomodoro) => {
     setEstimate(pomodoro);
   };
+  const iconRange = Array.from({ length: 5 }, (_, index) => index + 1);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -52,38 +53,17 @@ export default function AddTodo() {
         <div className='w-[1px] h-4 bg-slate-500 mx-2'></div>
         <div className='flex min-w-14 items-center'>
           <div className='flex bg-white text-gray-300 gap-1 text-lg mr-2 opacity-50'>
-            <FaStopwatch
-              className={`hover:cursor-pointer ${
-                estimate >= 1 ? 'text-brand' : ''
-              }`}
-              onClick={() =>
-                estimate === 1 ? handleEstimate(0) : handleEstimate(1)
-              }
-            />
-            <FaStopwatch
-              className={`hover:cursor-pointer ${
-                estimate >= 2 ? 'text-brand' : ''
-              }`}
-              onClick={() => handleEstimate(2)}
-            />
-            <FaStopwatch
-              className={`hover:cursor-pointer ${
-                estimate >= 3 ? 'text-brand' : ''
-              }`}
-              onClick={() => handleEstimate(3)}
-            />
-            <FaStopwatch
-              className={`hover:cursor-pointer ${
-                estimate >= 4 ? 'text-brand' : ''
-              }`}
-              onClick={() => handleEstimate(4)}
-            />
-            <FaStopwatch
-              className={`hover:cursor-pointer ${
-                estimate >= 5 ? 'text-brand' : ''
-              }`}
-              onClick={() => handleEstimate(5)}
-            />
+            {iconRange.map((value) => (
+              <FaStopwatch
+                key={value}
+                className={`hover:cursor-pointer ${
+                  estimate >= value ? 'text-brand' : ''
+                }`}
+                onClick={() =>
+                  handleEstimate(estimate === value ? value - 1 : value)
+                }
+              />
+            ))}
           </div>
         </div>
       </div>
