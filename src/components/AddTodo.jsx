@@ -44,7 +44,7 @@ export default function AddTodo() {
     <form onSubmit={handleSubmit}>
       <div className='flex my-3 bg-white items-center p-2 rounded-lg'>
         <input
-          className='w-48 xs:flex-1 focus:outline-none'
+          className='w-44 xs:flex-1 focus:outline-none'
           type='text'
           value={input}
           onChange={handleChange}
