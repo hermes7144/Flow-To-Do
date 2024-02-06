@@ -15,7 +15,7 @@ export default function Home() {
 
   if (isLoading)
     return (
-      <div className='flex items-center justify-center h-dvh overflow-y-hidden  overflow-x-hidden'>
+      <div className='flex items-center justify-center h-dvh'>
         <SyncLoader color='#fe5a4a' />
       </div>
     );
@@ -29,7 +29,10 @@ export default function Home() {
   );
 
   return (
-    <div className='p-5 relative h-dvh'>
+    <div
+      className='p-5 relative bg-gray-100 overflow-y-auto'
+      style={{ height: 'calc(100vh - 57px)' }}
+    >
       <>
         <PomodoroDashBoard
           activeCount={activeTodo.length}

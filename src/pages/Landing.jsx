@@ -1,5 +1,6 @@
 import React from 'react';
+import Banner from '../components/Banner';
 
 export default function Landing() {
-  return <div>랜딩페이지</div>;
+  return <Banner />;
 }

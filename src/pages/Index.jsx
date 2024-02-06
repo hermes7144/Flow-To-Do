@@ -9,7 +9,7 @@ export default function Index() {
 
   if (isAuthLoading)
     return (
-      <div className='flex items-center justify-center h-dvh overflow-y-hidden  overflow-x-hidden'>
+      <div className='flex items-center justify-center h-dvh '>
         <SyncLoader color='#fe5a4a' />
       </div>
     );

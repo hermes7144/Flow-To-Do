@@ -43,14 +43,14 @@ export default function AddTodo() {
     <form onSubmit={handleSubmit}>
       <div className='flex my-3 bg-white items-center p-2 rounded-lg'>
         <input
-          className='flex-1 focus:outline-none'
+          className='w-36 xs:flex-1 focus:outline-none'
           type='text'
           value={input}
           onChange={handleChange}
           placeholder='+ 할 일 추가'
         />
         <div className='w-[1px] h-4 bg-slate-500 mx-2'></div>
-        <div className='flex items-center'>
+        <div className='flex min-w-14 items-center'>
           <div className='flex bg-white text-gray-300 gap-1 text-lg mr-2 opacity-50'>
             <FaStopwatch
               className={`hover:cursor-pointer ${
