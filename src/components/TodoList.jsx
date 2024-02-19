@@ -19,7 +19,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
           <span>완료한 할일</span>
           <ul className='flex-1'>
             {completedTodo.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} />
+              <TodoItem key={todo.id} todo={todo} completed />
             ))}
           </ul>
         </div>

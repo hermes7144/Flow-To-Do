@@ -5,7 +5,7 @@ import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
 import { getDate } from '../js/CommonFunction';
 import { usePomodoroContext } from '../context/PomodoroContext';
 
-export default function TodoItem({ todo }) {
+export default function TodoItem({ todo, completed }) {
   const { runningTodo, setRunningTodo, isRunning, startPomodoro } = usePomodoroContext();
   const { updateTodo, deleteTodo } = useTodos();
   const handleDelete = deleteTodo.mutate;
@@ -46,13 +46,11 @@ export default function TodoItem({ todo }) {
     <li className='flex justify-between items-center bg-white p-2 my-1 rounded-md'>
       <div className='flex items-center'>
         <input className='mr-2' type='checkbox' onChange={() => handleUpdate(todo)} checked={todo.status === 'completed'} />
-        {todo.status === 'active' && (
-          <button className='mr-2' onClick={() => handleStart(todo)}>
-            {isRunning && runningTodo === todo ? <FaStopwatch className='w-5 h-5 text-brand opacity-80' /> : <FaRegPlayCircle className='w-5 h-5 text-gray-300' />}
-          </button>
-        )}
+        <button className={`mr-2 text-brand ${completed ? 'opacity-50' : 'opacity-80'}`} onClick={() => handleStart(todo)} disabled={completed}>
+          {isRunning && runningTodo === todo ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
+        </button>
         <div className='flex flex-col'>
-          <span>{todo.name}</span>
+          <span className={`${completed ? 'line-through text-gray-300' : ''}`}>{todo.name}</span>
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
