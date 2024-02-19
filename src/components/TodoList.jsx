@@ -1,5 +1,4 @@
 import React from 'react';
-import AddTodo from './AddTodo';
 import TodoItem from './TodoItem';
 
 export default function TodoList({ activeTodo, completedTodo }) {
@@ -9,7 +8,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
       <span>오늘</span>
       {!hasTodos && <p>할 일 목록이 없습니다.</p>}
       {activeTodo && (
-        <ul className='flex-1  '>
+        <ul className='flex-1'>
           {activeTodo.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}

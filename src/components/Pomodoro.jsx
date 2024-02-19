@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-  FaRegPauseCircle,
-  FaRegPlayCircle,
-  FaRegStopCircle,
-} from 'react-icons/fa';
+import { FaRegPauseCircle, FaRegPlayCircle, FaRegStopCircle } from 'react-icons/fa';
 import usePomodoro from '../hooks/usePomodoro';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import useTodos from '../hooks/useTodos';
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
-  const { runningTodo, isRunning, startPomodoro, stopPomodoro } =
-    usePomodoroContext();
+  const { runningTodo, isRunning, startPomodoro, stopPomodoro } = usePomodoroContext();
   const { updateTodo } = useTodos();
 
-  const POMODORO_TIME = 25 * 60;
-  const REST_TIME = 5 * 60;
+  // const POMODORO_TIME = 25 * 60;
+  // const REST_TIME = 5 * 60;
+  const POMODORO_TIME = 5;
+  const REST_TIME = 5;
+
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
   const [isRestRunning, setIsRestRunning] = useState(false);
@@ -28,11 +26,9 @@ export default function Pomodoro() {
           setSeconds((prev) => prev - 1);
         } else {
           addPomodoro.mutate();
-          runningTodo &&
-            updateTodo.mutate({ ...runningTodo, done: runningTodo.done + 1 });
+          runningTodo && updateTodo.mutate({ ...runningTodo, done: runningTodo.done + 1 });
           stopPomodoro();
           clearInterval(timer);
-          setRestSeconds(REST_TIME);
         }
       }, 1000);
     }
@@ -40,7 +36,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, seconds]);
+  }, [isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo]);
 
   useEffect(() => {
     let timer;
@@ -50,12 +46,14 @@ export default function Pomodoro() {
         if (restSeconds > 0) {
           setRestSeconds((prev) => prev - 1);
         } else {
+          setRestSeconds(REST_TIME);
           setIsRestRunning(false);
           clearInterval(timer);
           setSeconds(POMODORO_TIME);
         }
       }, 1000);
     } else {
+      setRestSeconds(REST_TIME);
       setSeconds(POMODORO_TIME);
     }
 
@@ -91,25 +89,23 @@ export default function Pomodoro() {
         )}
       </div>
 
-      {runningTodo?.name && (
-        <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>
-      )}
+      {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   ) : (
-    <div className='fixed p-3 -ml-36 sm:-ml-20 h-14 top-auto bottom-10 left-1/2 bg-slate-800 rounded-xl flex justify-around items-center min-w-28 text-white'>
-      <span className='text-lg font-bold'>{Math.ceil(restSeconds / 60)}</span>
-      {runningTodo?.name && (
-        <span className='mx-5 w-40 truncate ...'>{runningTodo?.name}</span>
-      )}
-      {isRestRunning ? (
-        <button onClick={handleRestPause}>
-          <FaRegPauseCircle className='w-7 h-7' />
-        </button>
-      ) : (
-        <button onClick={handleRestStart}>
-          <FaRegPlayCircle className='w-7 h-7' />
-        </button>
-      )}
+    <div className='fixed m-2 h-16 -ml-20 bottom-10 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
+      <div className='flex justify-around items-center'>
+        <span className='text-lg font-bold'>{Math.ceil(restSeconds / 60)}</span>
+        {isRestRunning ? (
+          <button onClick={handleRestPause}>
+            <FaRegPauseCircle className='w-7 h-7' />
+          </button>
+        ) : (
+          <button onClick={handleRestStart}>
+            <FaRegPlayCircle className='w-7 h-7' />
+          </button>
+        )}
+      </div>
+      {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   );
 }
