@@ -1,12 +1,12 @@
 import React from 'react';
 import TodoItem from './TodoItem';
+import EmptyTodo from './EmptyTodo';
 
 export default function TodoList({ activeTodo, completedTodo }) {
   const hasTodos = activeTodo && activeTodo.length > 0;
   return (
     <div className='flex flex-col pb-20'>
-      <span>오늘</span>
-      {!hasTodos && <p>할 일 목록이 없습니다.</p>}
+      {!hasTodos && <EmptyTodo />}
       {activeTodo && (
         <ul className='flex-1'>
           {activeTodo.map((todo) => (

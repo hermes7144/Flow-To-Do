@@ -2,7 +2,7 @@ import React from 'react';
 import useTodos from '../hooks/useTodos';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
-import { getDate } from '../js/CommonFunction';
+import { getToday } from '../js/CommonFunction';
 import { usePomodoroContext } from '../context/PomodoroContext';
 
 export default function TodoItem({ todo, completed }) {
@@ -13,7 +13,7 @@ export default function TodoItem({ todo, completed }) {
   const handleUpdate = (todo) => {
     updateTodo.mutate({
       ...todo,
-      completedDate: todo.status === 'active' ? getDate() : '',
+      completedDate: todo.status === 'active' ? getToday() : '',
       status: todo.status === 'active' ? 'completed' : 'active',
     });
     if (todo.status === 'active') setRunningTodo(null);
@@ -55,7 +55,7 @@ export default function TodoItem({ todo, completed }) {
         </div>
       </div>
       <div className='flex items-center gap-2'>
-        {todo.deadline < getDate() ? <span className='text-red-500'>{todo.deadline}</span> : <span>{todo.deadline}</span>}
+        {todo.deadline < getToday() ? <span className='text-red-500'>{todo.deadline}</span> : <span>{todo.deadline}</span>}
         <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300'>
           <button type='button' onClick={() => handleDelete(todo.id)}>
             <FaRegTrashCan />

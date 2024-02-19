@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import { PomodoroProvider } from './context/PomodoroContext';
+import { CategoryProvider } from './context/CategoryContext';
 
 const queryClient = new QueryClient();
 
@@ -11,9 +12,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Navbar />
-        <PomodoroProvider>
-          <Outlet />
-        </PomodoroProvider>
+        <CategoryProvider>
+          <PomodoroProvider>
+            <Outlet />
+          </PomodoroProvider>
+        </CategoryProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
