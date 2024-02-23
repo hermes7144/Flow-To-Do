@@ -46,8 +46,8 @@ export default function Home() {
   return (
     <div className='flex overflow-x-scroll'>
       <Sidebar />
-      <div className='flex-1 min-w-96 p-5 relative bg-gray-100 overflow-x-hidden overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
-        {category}
+      <div className='flex-1 p-4 relative bg-gray-100 overflow-x-hidden overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
+        <span className='text-xl font-bold'>{category}</span>
         <PomodoroDashBoard activeCount={activeTodo.length} completedCount={completedTodo.length} thisWeek={['오늘', '이번주'].includes(category)} />
         <AddTodo />
         <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />

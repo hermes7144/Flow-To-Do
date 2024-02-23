@@ -9,7 +9,7 @@ export default function PomodoroDashBoard({ activeCount, completedCount, thisWee
 
   if (isLoading) return <p>로딩중...</p>;
   return (
-    <div className='w-full bg-white h-16 rounded-lg flex justify-around'>
+    <div className='w-full bg-white h-16 rounded-lg flex justify-around mt-3'>
       <div className='flex flex-col items-center justify-center'>
         <div>
           <span className='text-brand text-3xl font-semibold'>0</span>
