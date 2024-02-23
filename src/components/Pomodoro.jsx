@@ -9,10 +9,10 @@ export default function Pomodoro() {
   const { runningTodo, isRunning, startPomodoro, stopPomodoro } = usePomodoroContext();
   const { updateTodo } = useTodos();
 
-  // const POMODORO_TIME = 25 * 60;
-  // const REST_TIME = 5 * 60;
-  const POMODORO_TIME = 5;
-  const REST_TIME = 5;
+  const POMODORO_TIME = 25 * 60;
+  const REST_TIME = 5 * 60;
+  // const POMODORO_TIME = 5;
+  // const REST_TIME = 5;
 
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
