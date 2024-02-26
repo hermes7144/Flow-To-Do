@@ -21,7 +21,7 @@ function getDeadline(category) {
 
 export default function Home() {
   const {
-    productsQuery: { isLoading, error, data: todos },
+    productsQuery: { isLoading, data: todos },
   } = useTodos();
 
   const { category } = useCategoryContext();

@@ -44,12 +44,14 @@ export function onUserStateChange(callback) {
 }
 
 export async function getTodos(uid) {
-  return get(ref(database, `todos/${uid}`)).then((snapshot) => {
+  return await get(ref(database, `todos/${uid}`)).then((snapshot) => {
     const items = snapshot.val() || {};
 
-    const sortedItems = Object.values(items).sort(
-      (a, b) => b.createdDate - a.createdDate
-    );
+    const sortedItems = Object.values(items).sort((a, b) => {
+      // 문자열 형태의 날짜를 비교하여 정렬
+      return a.deadline.localeCompare(b.deadline);
+    });
+
 
     return sortedItems;
   });
