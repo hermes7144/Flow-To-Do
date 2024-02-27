@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
@@ -8,6 +8,7 @@ import AddTodo from '../components/AddTodo';
 import Sidebar from '../components/Sidebar';
 import { useCategoryContext } from '../context/CategoryContext';
 import { TbLayoutSidebarLeftExpandFilled, TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
+import Loading from '../components/Loading';
 
 function getDeadline(category) {
   switch (category) {
@@ -17,6 +18,19 @@ function getDeadline(category) {
       return getThisWeek();
     default:
       return null;
+  }
+}
+
+function filterActiveTodos(category, todos) {
+  if (category === '내일') {
+    const tomorrow = getTomorrow();
+    return todos.filter((todo) => todo.status === 'active' && todo.deadline === tomorrow);
+  } else if (category === '다음주') {
+    const { start: nextWeekStart, end: nextWeekEnd } = getNextWeek();
+    return todos.filter((todo) => todo.status === 'active' && todo.deadline >= nextWeekStart && todo.deadline <= nextWeekEnd);
+  } else {
+    const deadline = getDeadline(category);
+    return todos.filter((todo) => todo.status === 'active' && todo.deadline <= deadline);
   }
 }
 
@@ -43,21 +57,9 @@ export default function Home() {
   };
   const toggleSidebar = () => setIsOpen((prevState) => !prevState);
 
-  if (isLoading) return <span>Loading...</span>;
+  if (isLoading) return <Loading />;
 
-  let activeTodo;
-
-  if (category === '내일') {
-    const tomorrow = getTomorrow();
-    activeTodo = todos.filter((todo) => todo.status === 'active' && todo.deadline === tomorrow);
-  } else if (category === '다음주') {
-    const { start: nextWeekStart, end: nextWeekEnd } = getNextWeek();
-    activeTodo = todos.filter((todo) => todo.status === 'active' && todo.deadline >= nextWeekStart && todo.deadline <= nextWeekEnd);
-  } else {
-    const deadline = getDeadline(category);
-    activeTodo = todos.filter((todo) => todo.status === 'active' && todo.deadline <= deadline);
-  }
-
+  const activeTodo = filterActiveTodos(category, todos);
   const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
 
   return (
@@ -79,7 +81,7 @@ export default function Home() {
           </div>
           <div className='hidden md:block'>
             <button className='text-gray-300 cursor-pointer hover:text-brand hover:opacity-90' onClick={toggleSidebar}>
-              {isOpen ? <TbLayoutSidebarRightExpandFilled className='h-8 w-8' /> : <TbLayoutSidebarLeftExpandFilled className='h-8 w-8' />}
+              <TbLayoutSidebarRightExpandFilled className={`h-8 w-8 ${isOpen ? '' : 'rotate-180'}`} />
             </button>
           </div>
 

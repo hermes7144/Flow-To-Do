@@ -38,7 +38,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
 
       {completedTodo && (
         <div>
-          <span>완료한 할 일</span>
+          <div className='m-4'>완료한 할 일</div>
           <ul className='flex-1'>
             {completedTodo.map((todo) => (
               <TodoItem key={todo.id} todo={todo} completed />

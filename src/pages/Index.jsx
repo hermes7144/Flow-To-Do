@@ -3,16 +3,12 @@ import { useAuthContext } from '../context/AuthContext';
 import { SyncLoader } from 'react-spinners';
 import Home from './Home';
 import Landing from './Landing';
+import Loading from '../components/Loading';
 
 export default function Index() {
   const { user, isAuthLoading } = useAuthContext();
 
-  if (isAuthLoading)
-    return (
-      <div className='flex items-center justify-center h-dvh '>
-        <SyncLoader color='#fe5a4a' />
-      </div>
-    );
+  if (isAuthLoading) return <Loading />;
 
   return user ? <Home /> : <Landing />;
 }
