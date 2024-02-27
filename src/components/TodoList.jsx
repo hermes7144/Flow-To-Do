@@ -20,7 +20,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
             ? activeTodo.map((todo) => <TodoItem key={todo.id} todo={todo} />)
             : activeTodo.map((todo, index) => {
                 if (lastDate === null || todo.deadline > lastDate) {
-                  lastDate = todo.deadline <= getToday() ? getToday() : todo.deadline;
+                  lastDate = todo.deadline < getToday() ? getToday() : todo.deadline;
 
                   return (
                     <React.Fragment key={index}>
@@ -29,7 +29,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
                     </React.Fragment>
                   );
                 } else {
-                  lastDate = todo.deadline;
+                  // lastDate = todo.deadline;
                   return <TodoItem key={todo.id} todo={todo} />;
                 }
               })}
@@ -38,7 +38,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
 
       {completedTodo && (
         <div>
-          <span>완료한 할일</span>
+          <span>완료한 할 일</span>
           <ul className='flex-1'>
             {completedTodo.map((todo) => (
               <TodoItem key={todo.id} todo={todo} completed />

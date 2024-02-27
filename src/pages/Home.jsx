@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
@@ -7,6 +7,7 @@ import { getNextWeek, getThisWeek, getToday, getTomorrow } from '../js/CommonFun
 import AddTodo from '../components/AddTodo';
 import Sidebar from '../components/Sidebar';
 import { useCategoryContext } from '../context/CategoryContext';
+import { TbLayoutSidebarLeftExpandFilled, TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
 
 function getDeadline(category) {
   switch (category) {
@@ -20,11 +21,27 @@ function getDeadline(category) {
 }
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
   const {
     productsQuery: { isLoading, data: todos },
   } = useTodos();
 
   const { category } = useCategoryContext();
+
+  const handleSheduleClick = () => {
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const toggleSidebar = () => setIsOpen((prevState) => !prevState);
 
   if (isLoading) return <span>Loading...</span>;
 
@@ -45,10 +62,30 @@ export default function Home() {
 
   return (
     <div className='flex'>
-      <Sidebar />
-      <div className='flex-1 p-4 relative bg-gray-100 overflow-x-hidden overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
-        <span className='text-xl font-bold'>{category}</span>
-        <PomodoroDashBoard activeCount={activeTodo.length} completedCount={completedTodo.length} thisWeek={['오늘', '이번주'].includes(category)} />
+      {isOpen && (
+        <div className='hidden md:block'>
+          <Sidebar handleSheduleClick={() => {}} />
+        </div>
+      )}
+      {isHovered && (
+        <div className='absolute z-10 bg-white shadow-xl' style={{ height: 'calc(100vh - 57px)' }} onMouseLeave={handleMouseLeave}>
+          <Sidebar handleSheduleClick={handleSheduleClick} />
+        </div>
+      )}
+      <div className='flex-1 p-4 relative bg-gray-100 overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
+        <div className='flex items-center gap-2'>
+          <div onMouseEnter={handleMouseEnter} className='block md:hidden'>
+            <TbLayoutSidebarRightExpandFilled className='h-8 w-8 text-gray-300 cursor-pointer' />
+          </div>
+          <div className='hidden md:block'>
+            <button className='text-gray-300 cursor-pointer hover:text-brand hover:opacity-90' onClick={toggleSidebar}>
+              {isOpen ? <TbLayoutSidebarRightExpandFilled className='h-8 w-8' /> : <TbLayoutSidebarLeftExpandFilled className='h-8 w-8' />}
+            </button>
+          </div>
+
+          <span className='text-xl font-bold'>{category}</span>
+        </div>
+        <PomodoroDashBoard activeTodo={activeTodo} completedCount={completedTodo.length} thisWeek={['오늘', '이번주'].includes(category)} />
         <AddTodo />
         <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />
         <Pomodoro />

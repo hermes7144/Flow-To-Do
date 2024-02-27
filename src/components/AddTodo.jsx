@@ -55,7 +55,7 @@ export default function AddTodo() {
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex my-3 bg-white items-center p-2 rounded-lg'>
-        <input className='w-44 xs:flex-1 focus:outline-none' type='text' value={input} onChange={handleChange} placeholder={`+ "할 일"을 추가하려면, [엔터키]를 눌러주세요`} />
+        <input className='w-44 xs:flex-1 focus:outline-none' type='text' value={input} onChange={handleChange} placeholder={`+ "${category} 할 일"을 추가하세요.`} />
         <div className='w-[1px] h-4 bg-slate-500 mx-2'></div>
         <div className='flex min-w-14 items-center'>
           <div className='flex bg-white text-gray-300 gap-1 text-lg mr-2 opacity-50'>

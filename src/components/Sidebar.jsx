@@ -10,11 +10,11 @@ const categories = [
   { title: '다음주', icon: <RiCalendarCheckFill className='h-6 w-6 text-blue-400' /> },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ handleSheduleClick }) {
   return (
-    <div className='w-1/6 min-w-60  hidden md:flex flex-col'>
+    <div className='w-1/6 min-w-60 flex flex-col'>
       {categories.map((item) => (
-        <SidebarItem item={item} key={item.title} />
+        <SidebarItem key={item.title} item={item} handleSheduleClick={handleSheduleClick} />
       ))}
     </div>
   );
