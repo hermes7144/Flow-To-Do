@@ -44,7 +44,7 @@ export default function Home() {
   const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
 
   return (
-    <div className='flex overflow-x-scroll'>
+    <div className='flex'>
       <Sidebar />
       <div className='flex-1 p-4 relative bg-gray-100 overflow-x-hidden overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
         <span className='text-xl font-bold'>{category}</span>

@@ -12,7 +12,7 @@ const categories = [
 
 export default function Sidebar() {
   return (
-    <div className='w-1/6 min-w-60 flex flex-col'>
+    <div className='w-1/6 min-w-60  hidden md:flex flex-col'>
       {categories.map((item) => (
         <SidebarItem item={item} key={item.title} />
       ))}
