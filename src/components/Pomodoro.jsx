@@ -17,9 +17,19 @@ export default function Pomodoro() {
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
   const [isRestRunning, setIsRestRunning] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     let timer;
+
+    const mobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (mobileFlag) {
+      // mobile
+      setIsMobile(true);
+    } else {
+      // desktop
+      setIsMobile(false);
+    }
     if (isRunning) {
       timer = setInterval(() => {
         if (seconds > 0) {
@@ -29,29 +39,14 @@ export default function Pomodoro() {
           runningTodo && updateTodo.mutate({ ...runningTodo, done: runningTodo.done + 1 });
           stopPomodoro();
           clearInterval(timer);
-          const audio = new Audio('/done.mp3');
 
-          const context = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = context.createOscillator();
-          oscillator.connect(context.destination);
-          oscillator.start();
-
-          setTimeout(() => {
-            oscillator.stop();
-            if (context.state === 'running') {
-              alert('소리가 켜져 있습니다.');
-            } else {
-              alert('소리가 꺼져 있거나 오디오가 차단되었습니다.');
-            }
-          }, 1000);
-
-          audio.play();
-
-          if ('vibrate' in navigator) {
-            // 모바일 기기에서 진동을 실행합니다.
-            navigator.vibrate([200, 100, 200]);
+          if (isMobile) {
+            const audio = new Audio('/done.mp3');
+            audio.play();
           } else {
-            alert('진동을 지원하지 않는 기기입니다.');
+            if ('vibrate' in navigator) {
+              navigator.vibrate([200, 100, 200]);
+            }
           }
         }
       }, 1000);
