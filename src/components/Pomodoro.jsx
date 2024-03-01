@@ -31,6 +31,13 @@ export default function Pomodoro() {
           clearInterval(timer);
           const audio = new Audio('/done.mp3');
           audio.play();
+
+          if ('vibrate' in navigator) {
+            // 모바일 기기에서 진동을 실행합니다.
+            navigator.vibrate([200, 100, 200]);
+          } else {
+            console.log('진동을 지원하지 않는 기기입니다.');
+          }
         }
       }, 1000);
     }
