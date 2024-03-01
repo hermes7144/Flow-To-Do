@@ -36,7 +36,7 @@ export default function Pomodoro() {
             // 모바일 기기에서 진동을 실행합니다.
             navigator.vibrate([200, 100, 200]);
           } else {
-            console.log('진동을 지원하지 않는 기기입니다.');
+            alert('진동을 지원하지 않는 기기입니다.');
           }
         }
       }, 1000);
