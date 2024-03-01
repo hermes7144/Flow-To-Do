@@ -41,12 +41,12 @@ export default function Pomodoro() {
           clearInterval(timer);
 
           if (isMobile) {
-            const audio = new Audio('/done.mp3');
-            audio.play();
-          } else {
             if ('vibrate' in navigator) {
               navigator.vibrate([200, 100, 200]);
             }
+          } else {
+            const audio = new Audio('/done.mp3');
+            audio.play();
           }
         }
       }, 1000);
