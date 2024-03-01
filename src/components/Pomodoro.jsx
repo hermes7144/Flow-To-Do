@@ -30,7 +30,8 @@ export default function Pomodoro() {
           stopPomodoro();
           clearInterval(timer);
           const audio = new Audio('/done.mp3');
-          audio.volume = window.devicePixelRatio;
+          const audio2 = new Audio();
+          alert(audio2.muted);
           audio.play();
 
           if ('vibrate' in navigator) {
@@ -61,7 +62,6 @@ export default function Pomodoro() {
           clearInterval(timer);
           setSeconds(POMODORO_TIME);
           const audio = new Audio('/restDone.mp3');
-          audio.volume = window.devicePixelRatio;
           audio.play();
         }
       }, 1000);
