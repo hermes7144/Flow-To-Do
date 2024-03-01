@@ -30,8 +30,21 @@ export default function Pomodoro() {
           stopPomodoro();
           clearInterval(timer);
           const audio = new Audio('/done.mp3');
-          const audio2 = new Audio();
-          alert(audio2.muted);
+
+          const context = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = context.createOscillator();
+          oscillator.connect(context.destination);
+          oscillator.start();
+
+          setTimeout(() => {
+            oscillator.stop();
+            if (context.state === 'running') {
+              console.log('소리가 켜져 있습니다.');
+            } else {
+              console.log('소리가 꺼져 있거나 오디오가 차단되었습니다.');
+            }
+          }, 1000);
+
           audio.play();
 
           if ('vibrate' in navigator) {
