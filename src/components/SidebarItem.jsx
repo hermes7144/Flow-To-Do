@@ -8,7 +8,7 @@ export default function SidebarItem({ item, handleSheduleClick }) {
     handleSheduleClick();
   };
   return (
-    <div className={`flex p-1 m-1 gap-1 rounded-lg cursor-pointer  ${category === item.title ? 'bg-slate-200' : 'hover:bg-slate-100'}`} onClick={() => handleClick(item.title)}>
+    <div className={`flex text-sm p-1 m-1 gap-1 rounded-lg cursor-pointer  ${category === item.title ? 'bg-slate-200' : 'hover:bg-slate-100'}`} onClick={() => handleClick(item.title)}>
       {item.icon}
       {item.title}
     </div>

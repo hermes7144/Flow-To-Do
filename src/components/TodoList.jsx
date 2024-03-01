@@ -2,8 +2,8 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import EmptyTodo from './EmptyTodo';
 import { useCategoryContext } from '../context/CategoryContext';
-import TodoDateRow from './TodoDateRow';
 import { getToday } from '../js/CommonFunction';
+import TodoDate from './TodoDate';
 
 export default function TodoList({ activeTodo, completedTodo }) {
   const { category } = useCategoryContext();
@@ -24,7 +24,7 @@ export default function TodoList({ activeTodo, completedTodo }) {
 
                   return (
                     <React.Fragment key={index}>
-                      <TodoDateRow key={lastDate} date={lastDate} />
+                      <TodoDate key={lastDate} date={lastDate} />
                       <TodoItem key={todo.id} todo={todo} />
                     </React.Fragment>
                   );

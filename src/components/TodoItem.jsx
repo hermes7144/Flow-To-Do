@@ -4,6 +4,7 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
 import { getToday } from '../js/CommonFunction';
 import { usePomodoroContext } from '../context/PomodoroContext';
+import TodoDate from './TodoDate';
 
 export default function TodoItem({ todo, completed }) {
   const { runningTodo, setRunningTodo, isRunning, startPomodoro } = usePomodoroContext();
@@ -55,8 +56,11 @@ export default function TodoItem({ todo, completed }) {
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
+
       <div className='flex items-center gap-2'>
-        {todo.deadline < getToday() ? <span className='text-red-500'>{todo.deadline}</span> : <span>{todo.deadline}</span>}
+        <span className={todo.deadline < getToday() ? 'text-red-500' : ''}>
+          <TodoDate date={todo.deadline} />
+        </span>
         <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300'>
           <button type='button' onClick={() => handleDelete(todo.id)}>
             <FaRegTrashCan />

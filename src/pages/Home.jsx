@@ -84,10 +84,9 @@ export default function Home() {
               <TbLayoutSidebarRightExpandFilled className={`h-8 w-8 ${isOpen ? '' : 'rotate-180'}`} />
             </button>
           </div>
-
           <span className='text-xl font-bold'>{category}</span>
         </div>
-        <PomodoroDashBoard activeTodo={activeTodo} completedCount={completedTodo.length} thisWeek={['오늘', '이번주'].includes(category)} />
+        <PomodoroDashBoard activeTodo={activeTodo} completedCount={completedTodo.length} thisWeek={['오늘', '이번 주'].includes(category)} />
         <AddTodo />
         <TodoList activeTodo={activeTodo} completedTodo={completedTodo} />
         <Pomodoro />

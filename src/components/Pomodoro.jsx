@@ -4,10 +4,10 @@ import usePomodoro from '../hooks/usePomodoro';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import useTodos from '../hooks/useTodos';
 
-const POMODORO_TIME = 25 * 60;
-const REST_TIME = 5 * 60;
-// const POMODORO_TIME = 5;
-// const REST_TIME = 5;
+// const POMODORO_TIME = 25 * 60;
+// const REST_TIME = 5 * 60;
+const POMODORO_TIME = 5;
+const REST_TIME = 5;
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
@@ -29,6 +29,8 @@ export default function Pomodoro() {
           runningTodo && updateTodo.mutate({ ...runningTodo, done: runningTodo.done + 1 });
           stopPomodoro();
           clearInterval(timer);
+          const audio = new Audio('/done.mp3');
+          audio.play();
         }
       }, 1000);
     }
@@ -50,6 +52,8 @@ export default function Pomodoro() {
           setIsRestRunning(false);
           clearInterval(timer);
           setSeconds(POMODORO_TIME);
+          const audio = new Audio('/restDone.mp3');
+          audio.play();
         }
       }, 1000);
     } else {
@@ -70,7 +74,7 @@ export default function Pomodoro() {
   const handleRestPause = () => setIsRestRunning(false);
 
   return seconds > 0 ? (
-    <div className='fixed m-2 h-16 -ml-20 bottom-10 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
+    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
         {isRunning ? (
@@ -92,7 +96,7 @@ export default function Pomodoro() {
       {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   ) : (
-    <div className='fixed m-2 h-16 -ml-20 bottom-10 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
+    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(restSeconds / 60)}</span>
         {isRestRunning ? (

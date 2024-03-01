@@ -1,7 +1,7 @@
 import React from 'react';
-import { getToday, getTomorrow } from '../js/CommonFunction';
+import { formatMonthAndDay, getToday, getTomorrow } from '../js/CommonFunction';
 
-export default function TodoDateRow({ date }) {
+export default function TodoDate({ date }) {
   const today = getToday();
   const tomorrow = getTomorrow();
 
@@ -11,7 +11,7 @@ export default function TodoDateRow({ date }) {
   } else if (date === tomorrow) {
     displayDate = '내일';
   } else {
-    displayDate = date;
+    displayDate = formatMonthAndDay(date);
   }
 
   return <>{displayDate}</>;
