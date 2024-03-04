@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuthContext } from '../context/AuthContext';
-import { SyncLoader } from 'react-spinners';
 import Home from './Home';
 import Landing from './Landing';
 import Loading from '../components/Loading';

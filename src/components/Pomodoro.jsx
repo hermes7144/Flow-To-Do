@@ -8,6 +8,7 @@ const POMODORO_TIME = 25 * 60;
 const REST_TIME = 5 * 60;
 // const POMODORO_TIME = 5;
 // const REST_TIME = 5;
+const mobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
@@ -22,7 +23,6 @@ export default function Pomodoro() {
   useEffect(() => {
     let timer;
 
-    const mobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (mobileFlag) {
       // mobile
       setIsMobile(true);
@@ -55,7 +55,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo]);
+  }, [isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo, isMobile]);
 
   useEffect(() => {
     let timer;
@@ -91,7 +91,7 @@ export default function Pomodoro() {
   const handleRestPause = () => setIsRestRunning(false);
 
   return seconds > 0 ? (
-    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
+    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
         {isRunning ? (

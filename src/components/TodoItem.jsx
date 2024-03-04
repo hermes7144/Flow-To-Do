@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useTodos from '../hooks/useTodos';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
@@ -7,6 +7,10 @@ import { usePomodoroContext } from '../context/PomodoroContext';
 import TodoDate from './TodoDate';
 
 export default function TodoItem({ todo, completed }) {
+  const [isActive, setIsActive] = useState(false);
+  const [name, setName] = useState(todo.name);
+  const inputRef = useRef(null);
+
   const { runningTodo, setRunningTodo, isRunning, startPomodoro } = usePomodoroContext();
   const { updateTodo, deleteTodo } = useTodos();
   const handleDelete = deleteTodo.mutate;
@@ -40,8 +44,41 @@ export default function TodoItem({ todo, completed }) {
     return <div className='flex'>{icons}</div>;
   };
 
+  useEffect(() => {
+    if (isActive) {
+      inputRef.current.focus();
+    }
+  }, [isActive]);
+
   const handleStart = (todo) => {
     startPomodoro(todo);
+  };
+
+  const handleClick = () => {
+    setIsActive(true);
+  };
+
+  const handleChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleBlur = () => {
+    setIsActive(false);
+
+    updateTodo.mutate({
+      ...todo,
+      name,
+    });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setIsActive(false);
+      updateTodo.mutate({
+        ...todo,
+        name,
+      });
+    }
   };
 
   return (
@@ -51,8 +88,14 @@ export default function TodoItem({ todo, completed }) {
         <button className={`mr-2 text-brand ${completed ? 'opacity-50' : 'opacity-80'}`} onClick={() => handleStart(todo)} disabled={completed}>
           {isRunning && runningTodo === todo ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
         </button>
-        <div className='flex flex-col'>
-          <span className={`${completed ? 'line-through text-gray-300' : ''}`}>{todo.name}</span>
+        <div className='flex flex-col flex-1'>
+          {isActive ? (
+            <input className={` outline-none border-2 border-brand`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
+          ) : (
+            <span className={`${completed ? 'line-through text-gray-300' : ''}`} onClick={handleClick}>
+              {todo.name}
+            </span>
+          )}
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
