@@ -14,7 +14,7 @@ function getDeadline(category) {
   switch (category) {
     case '오늘':
       return getToday();
-    case '이번주':
+    case '이번 주':
       return getThisWeek();
     default:
       return null;
@@ -25,12 +25,13 @@ function filterActiveTodos(category, todos) {
   if (category === '내일') {
     const tomorrow = getTomorrow();
     return todos.filter((todo) => todo.status === 'active' && todo.deadline === tomorrow);
-  } else if (category === '다음주') {
+  } else if (category === '다음 주') {
     const { start: nextWeekStart, end: nextWeekEnd } = getNextWeek();
     return todos.filter((todo) => todo.status === 'active' && todo.deadline >= nextWeekStart && todo.deadline <= nextWeekEnd);
   } else {
     const deadline = getDeadline(category);
-    return todos.filter((todo) => todo.status === 'active' && todo.deadline <= deadline);
+
+    return todos.filter((todo) => todo.status === 'active' && todo.deadline <= deadline) || [];
   }
 }
 
@@ -41,6 +42,8 @@ export default function Home() {
   const {
     productsQuery: { isLoading, data: todos },
   } = useTodos();
+
+  console.log('todos', todos);
 
   const { category } = useCategoryContext();
 

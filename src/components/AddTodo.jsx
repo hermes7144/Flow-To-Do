@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import useTodos from '../hooks/useTodos';
 
-import 'react-datepicker/dist/react-datepicker.css';
 import { FaStopwatch } from 'react-icons/fa';
 import { useCategoryContext } from '../context/CategoryContext';
 import { getNextWeek, getThisWeek, getToday, getTomorrow } from '../js/CommonFunction';
@@ -23,14 +22,15 @@ export default function AddTodo() {
           return getToday();
         case '내일':
           return getTomorrow();
-        case '이번주':
+        case '이번 주':
           return getThisWeek();
-        case '다음주':
+        case '다음 주':
           return getNextWeek().end;
         default:
           return null;
       }
     }
+    console.log(getDeadline(category));
 
     const todo = {
       name: input,
