@@ -4,16 +4,19 @@ import usePomodoro from '../hooks/usePomodoro';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import useTodos from '../hooks/useTodos';
 
-const POMODORO_TIME = 25 * 60;
-const REST_TIME = 5 * 60;
-// const POMODORO_TIME = 5;
-// const REST_TIME = 5;
+// const POMODORO_TIME = 25 * 60;
+// const REST_TIME = 5 * 60;
+const POMODORO_TIME = 5;
+const REST_TIME = 5;
 const mobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
   const { runningTodo, isRunning, startPomodoro, stopPomodoro } = usePomodoroContext();
-  const { updateTodo } = useTodos();
+  const {
+    updateTodo,
+    productsQuery: { data: todos },
+  } = useTodos();
 
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
@@ -36,7 +39,14 @@ export default function Pomodoro() {
           setSeconds((prev) => prev - 1);
         } else {
           addPomodoro.mutate();
-          runningTodo && updateTodo.mutate({ ...runningTodo, done: runningTodo.done + 1 });
+
+          if (runningTodo) {
+            const todoToUpdate = todos.find((todo) => todo.id === runningTodo.id);
+            if (todoToUpdate) {
+              updateTodo.mutate({ ...todoToUpdate, done: todoToUpdate.done + 1 });
+            }
+          }
+
           stopPomodoro();
           clearInterval(timer);
 
@@ -55,7 +65,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo, isMobile]);
+  }, [todos, isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo, isMobile]);
 
   useEffect(() => {
     let timer;
@@ -82,7 +92,7 @@ export default function Pomodoro() {
       clearInterval(timer);
     };
   }, [isRestRunning, restSeconds, runningTodo]);
-
+  // 여기에 tdoo 넣어야 되나>
   const handleStart = () => startPomodoro();
   const handlePause = () => stopPomodoro();
   const handleReset = () => setSeconds(POMODORO_TIME);

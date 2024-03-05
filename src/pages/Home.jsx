@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
@@ -7,7 +7,7 @@ import { getNextWeek, getThisWeek, getToday, getTomorrow } from '../js/CommonFun
 import AddTodo from '../components/AddTodo';
 import Sidebar from '../components/Sidebar';
 import { useCategoryContext } from '../context/CategoryContext';
-import { TbLayoutSidebarLeftExpandFilled, TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
+import { TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
 import Loading from '../components/Loading';
 
 function getDeadline(category) {
@@ -42,8 +42,6 @@ export default function Home() {
   const {
     productsQuery: { isLoading, data: todos },
   } = useTodos();
-
-  console.log('todos', todos);
 
   const { category } = useCategoryContext();
 
