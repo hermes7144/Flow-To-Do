@@ -1,13 +1,10 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import EmptyTodo from './EmptyTodo';
-import { useCategoryContext } from '../context/CategoryContext';
 import { getToday } from '../js/CommonFunction';
 import TodoDate from './TodoDate';
 
-export default function TodoList({ activeTodo, completedTodo }) {
-  const { category } = useCategoryContext();
-
+export default function TodoList({ activeTodo, completedTodo, category }) {
   const hasTodos = activeTodo && activeTodo.length > 0;
   let lastDate = null;
 
@@ -29,7 +26,6 @@ export default function TodoList({ activeTodo, completedTodo }) {
                     </React.Fragment>
                   );
                 } else {
-                  // lastDate = todo.deadline;
                   return <TodoItem key={todo.id} todo={todo} />;
                 }
               })}

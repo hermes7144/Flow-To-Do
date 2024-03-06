@@ -4,11 +4,10 @@ import usePomodoro from '../hooks/usePomodoro';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import useTodos from '../hooks/useTodos';
 
-const POMODORO_TIME = 25 * 60;
-const REST_TIME = 5 * 60;
-// const POMODORO_TIME = 5;
-// const REST_TIME = 5;
-const mobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+// const POMODORO_TIME = 25 * 60;
+// const REST_TIME = 5 * 60;?
+const POMODORO_TIME = 5;
+const REST_TIME = 5;
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
@@ -21,18 +20,10 @@ export default function Pomodoro() {
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
   const [isRestRunning, setIsRestRunning] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     let timer;
 
-    if (mobileFlag) {
-      // mobile
-      setIsMobile(true);
-    } else {
-      // desktop
-      setIsMobile(false);
-    }
     if (isRunning) {
       timer = setInterval(() => {
         if (seconds > 0) {
@@ -50,7 +41,7 @@ export default function Pomodoro() {
           stopPomodoro();
           clearInterval(timer);
 
-          if (isMobile) {
+          if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             if ('vibrate' in navigator) {
               navigator.vibrate([200, 100, 200]);
             }
@@ -65,7 +56,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [todos, isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo, isMobile]);
+  }, [todos, isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo]);
 
   useEffect(() => {
     let timer;
@@ -123,7 +114,7 @@ export default function Pomodoro() {
       {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   ) : (
-    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1'>
+    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(restSeconds / 60)}</span>
         {isRestRunning ? (

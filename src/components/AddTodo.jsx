@@ -2,35 +2,17 @@ import React, { useState } from 'react';
 import useTodos from '../hooks/useTodos';
 
 import { FaStopwatch } from 'react-icons/fa';
-import { useCategoryContext } from '../context/CategoryContext';
-import { getNextWeek, getThisWeek, getToday, getTomorrow } from '../js/CommonFunction';
+import { getDeadline } from '../js/CommonFunction';
 
-export default function AddTodo() {
+export default function AddTodo({ category }) {
   const { addTodo } = useTodos();
   const [input, setInput] = useState('');
   const [estimate, setEstimate] = useState(0);
-  const { category } = useCategoryContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!input) return;
-
-    function getDeadline(category) {
-      switch (category) {
-        case '오늘':
-          return getToday();
-        case '내일':
-          return getTomorrow();
-        case '이번 주':
-          return getThisWeek();
-        case '다음 주':
-          return getNextWeek().end;
-        default:
-          return null;
-      }
-    }
-    console.log(getDeadline(category));
 
     const todo = {
       name: input,
@@ -47,8 +29,8 @@ export default function AddTodo() {
     setInput(e.target.value);
   };
 
-  const handleEstimate = (pomodoro) => {
-    setEstimate(pomodoro);
+  const handleEstimate = (p) => {
+    setEstimate(p);
   };
   const iconRange = Array.from({ length: 5 }, (_, index) => index + 1);
 

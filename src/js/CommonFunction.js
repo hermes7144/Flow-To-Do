@@ -45,5 +45,21 @@ export function formatMonthAndDay(deadline) {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
   return `${month}월 ${day}일`
+}
 
+export function getDeadline(category, includeStart = false) {
+  switch (category)
+  {
+    case '오늘':
+      return getToday();
+    case '내일':
+      return getTomorrow();
+    case '이번 주':
+      return getThisWeek();
+    case '다음 주':
+      const nextWeek = getNextWeek();
+      return includeStart ? nextWeek : nextWeek.end;
+    default:
+      return null;
+  }
 }

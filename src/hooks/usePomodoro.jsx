@@ -18,7 +18,6 @@ export default function usePomodoro() {
       await setPomodoro(uid, pomodoro);
     },
     onSuccess: () => {
-      console.log('Pomodoro set successfully.');
       queryClient.invalidateQueries(['pomodoro', uid]);
     },
   });
