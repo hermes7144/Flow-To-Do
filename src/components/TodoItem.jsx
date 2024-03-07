@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useTodos from '../hooks/useTodos';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
@@ -44,18 +44,13 @@ export default function TodoItem({ todo, completed }) {
     return <div className='flex'>{icons}</div>;
   };
 
-  useEffect(() => {
-    if (isActive) {
-      inputRef.current.focus();
-    }
-  }, [isActive]);
-
   const handleStart = (todo) => {
     startPomodoro(todo);
   };
 
   const handleClick = () => {
     setIsActive(true);
+    inputRef.current.focus();
   };
 
   const handleChange = (e) => {
