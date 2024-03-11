@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaRegPauseCircle, FaRegPlayCircle, FaRegStopCircle } from 'react-icons/fa';
 import usePomodoro from '../hooks/usePomodoro';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import useTodos from '../hooks/useTodos';
 
-const POMODORO_TIME = 25 * 60;
-const REST_TIME = 5 * 60;
-// const POMODORO_TIME = 5;
-// const REST_TIME = 5;
+// const POMODORO_TIME = 25 * 60;
+// const REST_TIME = 5 * 60;
+const POMODORO_TIME = 5;
+const REST_TIME = 5;
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
@@ -22,6 +22,41 @@ export default function Pomodoro() {
   const [isRestRunning, setIsRestRunning] = useState(false);
   const [isPomodoroRunning, setIsPomodoroRunning] = useState(true); // Pomodoro 실행 여부를 추적하는 변수
 
+  const handlePomodoroEnd = useCallback(
+    (timer) => {
+      setIsPomodoroRunning(false);
+      addPomodoro.mutate();
+
+      if (runningTodo) {
+        const todoToUpdate = todos.find((todo) => todo.id === runningTodo.id);
+        if (todoToUpdate) {
+          updateTodo.mutate({ ...todoToUpdate, done: todoToUpdate.done + 1 });
+        }
+      }
+
+      setSeconds(POMODORO_TIME);
+      stopPomodoro();
+      clearInterval(timer);
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        if ('vibrate' in navigator) {
+          navigator.vibrate([200, 100, 200]);
+        }
+      } else {
+        const audio = new Audio('/done.mp3');
+        audio.play();
+      }
+    },
+    [addPomodoro, runningTodo, stopPomodoro, todos, updateTodo]
+  );
+
+  const handleRestEnd = (timer) => {
+    setIsRestRunning(false);
+    clearInterval(timer);
+    setRestSeconds(REST_TIME);
+    setIsPomodoroRunning(true);
+  };
+
   useEffect(() => {
     let timer;
 
@@ -32,28 +67,7 @@ export default function Pomodoro() {
         if (seconds > 0) {
           setSeconds((prev) => prev - 1);
         } else {
-          setIsPomodoroRunning(false);
-          addPomodoro.mutate();
-
-          if (runningTodo) {
-            const todoToUpdate = todos.find((todo) => todo.id === runningTodo.id);
-            if (todoToUpdate) {
-              updateTodo.mutate({ ...todoToUpdate, done: todoToUpdate.done + 1 });
-            }
-          }
-
-          setSeconds(POMODORO_TIME);
-          stopPomodoro();
-          clearInterval(timer);
-
-          if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            if ('vibrate' in navigator) {
-              navigator.vibrate([200, 100, 200]);
-            }
-          } else {
-            const audio = new Audio('/done.mp3');
-            audio.play();
-          }
+          handlePomodoroEnd(timer);
         }
       }, 1000);
     }
@@ -61,7 +75,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [todos, isRunning, seconds, addPomodoro, stopPomodoro, runningTodo, updateTodo]);
+  }, [todos, isRunning, seconds, handlePomodoroEnd]);
 
   useEffect(() => {
     let timer;
@@ -71,25 +85,20 @@ export default function Pomodoro() {
         if (restSeconds > 0) {
           setRestSeconds((prev) => prev - 1);
         } else {
-          setIsRestRunning(false);
-          clearInterval(timer);
-          setRestSeconds(REST_TIME);
-          setIsPomodoroRunning(true);
-
+          handleRestEnd();
           const audio = new Audio('/restDone.mp3');
           audio.play();
         }
       }, 1000);
     } else {
-      setRestSeconds(REST_TIME);
-      clearInterval(timer);
-      setIsPomodoroRunning(true);
+      handleRestEnd();
     }
 
     return () => {
       clearInterval(timer);
     };
   }, [isRestRunning, restSeconds]);
+
   // 여기에 tdoo 넣어야 되나>
   const handleStart = () => startPomodoro();
   const handlePause = () => stopPomodoro();
