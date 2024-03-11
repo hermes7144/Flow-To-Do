@@ -73,7 +73,6 @@ export default function TodoItem({ todo, completed }) {
       inputRef.current.blur();
     }
   };
-
   return (
     <li className='flex justify-between items-center bg-white p-1 my-1 rounded-md gap-2'>
       <div className='flex items-center w-full'>
@@ -82,7 +81,7 @@ export default function TodoItem({ todo, completed }) {
           {isRunning && runningTodo?.id === todo.id ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
         </button>
         <div className='flex flex-col w-full gap-1'>
-          <input className={`outline-none focus:border focus:border-brand w-full rounded-lg`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
+          <input className={`outline-none focus:border focus:border-brand w-full rounded-lg  overflow-ellipsis`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
