@@ -20,15 +20,19 @@ export default function Pomodoro() {
   const [seconds, setSeconds] = useState(POMODORO_TIME);
   const [restSeconds, setRestSeconds] = useState(REST_TIME);
   const [isRestRunning, setIsRestRunning] = useState(false);
+  const [isPomodoroRunning, setIsPomodoroRunning] = useState(true); // Pomodoro 실행 여부를 추적하는 변수
 
   useEffect(() => {
     let timer;
 
     if (isRunning) {
+      setIsPomodoroRunning(true);
+
       timer = setInterval(() => {
         if (seconds > 0) {
           setSeconds((prev) => prev - 1);
         } else {
+          setIsPomodoroRunning(false);
           addPomodoro.mutate();
 
           if (runningTodo) {
@@ -38,6 +42,7 @@ export default function Pomodoro() {
             }
           }
 
+          setSeconds(POMODORO_TIME);
           stopPomodoro();
           clearInterval(timer);
 
@@ -66,23 +71,25 @@ export default function Pomodoro() {
         if (restSeconds > 0) {
           setRestSeconds((prev) => prev - 1);
         } else {
-          setRestSeconds(REST_TIME);
           setIsRestRunning(false);
           clearInterval(timer);
-          setSeconds(POMODORO_TIME);
+          setRestSeconds(REST_TIME);
+          setIsPomodoroRunning(true);
+
           const audio = new Audio('/restDone.mp3');
           audio.play();
         }
       }, 1000);
     } else {
       setRestSeconds(REST_TIME);
-      setSeconds(POMODORO_TIME);
+      clearInterval(timer);
+      setIsPomodoroRunning(true);
     }
 
     return () => {
       clearInterval(timer);
     };
-  }, [isRestRunning, restSeconds, runningTodo]);
+  }, [isRestRunning, restSeconds]);
   // 여기에 tdoo 넣어야 되나>
   const handleStart = () => startPomodoro();
   const handlePause = () => stopPomodoro();
@@ -91,7 +98,7 @@ export default function Pomodoro() {
   const handleRestStart = () => setIsRestRunning(true);
   const handleRestPause = () => setIsRestRunning(false);
 
-  return seconds > 0 ? (
+  return isPomodoroRunning ? (
     <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg'>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>

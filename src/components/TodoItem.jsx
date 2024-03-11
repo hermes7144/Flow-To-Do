@@ -7,7 +7,6 @@ import { usePomodoroContext } from '../context/PomodoroContext';
 import TodoDate from './TodoDate';
 
 export default function TodoItem({ todo, completed }) {
-  const [isActive, setIsActive] = useState(false);
   const [name, setName] = useState(todo.name);
   const inputRef = useRef(null);
 
@@ -22,19 +21,23 @@ export default function TodoItem({ todo, completed }) {
       status: todo.status === 'active' ? 'completed' : 'active',
     });
 
-    if (todo.status === 'active' && runningTodo === todo) setRunningTodo(null);
+    if (todo.status === 'active' && runningTodo?.id === todo.id) setRunningTodo(null);
   };
 
   const PomodoroIconList = ({ estimate, done }) => {
     const icons =
       done > 5 ? (
-        <>
-          <FaStopwatch className='text-brand opacity-80' />
-          <span>{done}</span>
-          /
-          <FaStopwatch className='text-brand opacity-40' />
-          <span>{estimate}</span>
-        </>
+        <div className='flex text-brand gap-1'>
+          <div className='flex opacity-80'>
+            <FaStopwatch />
+            <span>{done}</span>
+          </div>
+          <span className='text-gray-400'>/</span>
+          <div className='flex opacity-40'>
+            <FaStopwatch />
+            <span>{estimate}</span>
+          </div>
+        </div>
       ) : estimate > done ? (
         Array.from({ length: estimate }, (_, index) => <FaStopwatch key={index} className={`text-brand ${index + 1 <= done ? 'opacity-80' : 'opacity-40'} `} />)
       ) : (
@@ -48,55 +51,43 @@ export default function TodoItem({ todo, completed }) {
     startPomodoro(todo);
   };
 
-  const handleClick = () => {
-    setIsActive(true);
-    inputRef.current.focus();
-  };
-
   const handleChange = (e) => {
     setName(e.target.value);
   };
 
   const handleBlur = () => {
-    setIsActive(false);
-
-    updateTodo.mutate({
-      ...todo,
-      name,
-    });
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      setIsActive(false);
+    todo.name !== name &&
       updateTodo.mutate({
         ...todo,
         name,
       });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      todo.name !== name &&
+        updateTodo.mutate({
+          ...todo,
+          name,
+        });
+      inputRef.current.blur();
     }
   };
 
   return (
-    <li className='flex justify-between items-center bg-white p-2 my-1 rounded-md'>
-      <div className='flex items-center'>
+    <li className='flex justify-between items-center bg-white p-1 my-1 rounded-md gap-2'>
+      <div className='flex items-center w-full'>
         <input className='mr-2' type='checkbox' onChange={() => handleUpdate(todo)} checked={todo.status === 'completed'} />
         <button className={`mr-2 text-brand ${completed ? 'opacity-50' : 'opacity-80'}`} onClick={() => handleStart(todo)} disabled={completed}>
-          {isRunning && runningTodo === todo ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
+          {isRunning && runningTodo?.id === todo.id ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
         </button>
-        <div className='flex flex-col flex-1'>
-          {isActive ? (
-            <input className={` outline-none border-2 border-brand`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
-          ) : (
-            <span className={`${completed ? 'line-through text-gray-300' : ''}`} onClick={handleClick}>
-              {todo.name}
-            </span>
-          )}
+        <div className='flex flex-col w-full gap-1'>
+          <input className={`outline-none focus:border focus:border-brand w-full rounded-lg`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
-
-      <div className='flex items-center gap-2'>
-        <span className={todo.deadline < getToday() ? 'text-red-500' : ''}>
+      <div className='flex items-center gap-1'>
+        <span className={`w-20 ${todo.deadline < getToday() ? 'text-red-500' : ''}`}>
           <TodoDate date={todo.deadline} />
         </span>
         <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300'>

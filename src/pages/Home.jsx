@@ -35,7 +35,9 @@ export default function Home() {
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    setTimeout(() => {
+      setIsHovered(true);
+    }, 300);
   };
 
   const handleMouseLeave = () => {
