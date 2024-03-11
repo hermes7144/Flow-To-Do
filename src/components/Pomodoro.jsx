@@ -11,7 +11,7 @@ const REST_TIME = 5;
 
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
-  const { runningTodo, isRunning, startPomodoro, stopPomodoro } = usePomodoroContext();
+  const { runningTodo, isRunning, setIsRunning } = usePomodoroContext();
   const {
     updateTodo,
     productsQuery: { data: todos },
@@ -34,25 +34,19 @@ export default function Pomodoro() {
         }
       }
 
-      setSeconds(POMODORO_TIME);
-      stopPomodoro();
       clearInterval(timer);
+      setSeconds(POMODORO_TIME);
+      setIsRunning(false);
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        if ('vibrate' in navigator) {
-          navigator.vibrate([200, 100, 200]);
-        }
-      } else {
-        const audio = new Audio('/done.mp3');
-        audio.play();
-      }
+      pomodoroEndAction();
     },
-    [addPomodoro, runningTodo, stopPomodoro, todos, updateTodo]
+    [todos, runningTodo, addPomodoro, updateTodo, setIsRunning]
   );
 
   const handleRestEnd = (timer) => {
-    setIsRestRunning(false);
     clearInterval(timer);
+
+    setIsRestRunning(false);
     setRestSeconds(REST_TIME);
     setIsPomodoroRunning(true);
   };
@@ -75,7 +69,7 @@ export default function Pomodoro() {
     return () => {
       clearInterval(timer);
     };
-  }, [todos, isRunning, seconds, handlePomodoroEnd]);
+  }, [isRunning, seconds, handlePomodoroEnd]);
 
   useEffect(() => {
     let timer;
@@ -99,51 +93,35 @@ export default function Pomodoro() {
     };
   }, [isRestRunning, restSeconds]);
 
-  // 여기에 tdoo 넣어야 되나>
-  const handleStart = () => startPomodoro();
-  const handlePause = () => stopPomodoro();
   const handleReset = () => setSeconds(POMODORO_TIME);
 
-  const handleRestStart = () => setIsRestRunning(true);
-  const handleRestPause = () => setIsRestRunning(false);
-
-  return isPomodoroRunning ? (
-    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-brand rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg'>
+  return (
+    <div className={`fixed m-2 h-16 -ml-20 bottom-5 left-1/2 rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg ${isPomodoroRunning ? 'bg-brand' : 'bg-slate-800'}`}>
       <div className='flex justify-around items-center'>
-        <span className='text-lg font-bold'>{Math.ceil(seconds / 60)}</span>
-        {isRunning ? (
-          <button onClick={handlePause}>
-            <FaRegPauseCircle className='w-7 h-7 font-semibold' />
-          </button>
-        ) : (
-          <button onClick={handleStart}>
-            <FaRegPlayCircle className='w-7 h-7 font-semibold' />
-          </button>
-        )}
+        <span className='text-lg font-bold'>{Math.ceil((isPomodoroRunning ? seconds : restSeconds) / 60)}</span>
+        {isPomodoroRunning && <button onClick={() => setIsRunning((prevState) => !prevState)}>{isRunning ? <FaRegPauseCircle className='w-7 h-7 font-semibold' /> : <FaRegPlayCircle className='w-7 h-7 font-semibold' />}</button>}
+
         {!isRunning && seconds !== POMODORO_TIME && (
           <button onClick={handleReset}>
-            <FaRegStopCircle className='w-5 h-5' />
+            <FaRegStopCircle className='w-5 h-5 font-semibold' />
           </button>
         )}
+
+        {!isPomodoroRunning && <button onClick={() => setIsRestRunning((prevState) => !prevState)}>{isRestRunning ? <FaRegPauseCircle className='w-7 h-7' /> : <FaRegPlayCircle className='w-7 h-7' />}</button>}
       </div>
 
-      {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
-    </div>
-  ) : (
-    <div className='fixed m-2 h-16 -ml-20 bottom-5 left-1/2 bg-slate-800 rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg'>
-      <div className='flex justify-around items-center'>
-        <span className='text-lg font-bold'>{Math.ceil(restSeconds / 60)}</span>
-        {isRestRunning ? (
-          <button onClick={handleRestPause}>
-            <FaRegPauseCircle className='w-7 h-7' />
-          </button>
-        ) : (
-          <button onClick={handleRestStart}>
-            <FaRegPlayCircle className='w-7 h-7' />
-          </button>
-        )}
-      </div>
       {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   );
+}
+
+function pomodoroEndAction() {
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    if ('vibrate' in navigator) {
+      navigator.vibrate([200, 100, 200]);
+    }
+  } else {
+    const audio = new Audio('/done.mp3');
+    audio.play();
+  }
 }

@@ -5,14 +5,6 @@ const PomodoroContext = createContext();
 export function PomodoroProvider({ children }) {
   const [isRunning, setIsRunning] = useState(false);
   const [runningTodo, setRunningTodo] = useState(null);
-  const startPomodoro = (todo) => {
-    todo && setRunningTodo(todo);
-    setIsRunning(true);
-  };
-
-  const stopPomodoro = () => {
-    setIsRunning(false);
-  };
 
   return (
     <PomodoroContext.Provider
@@ -20,8 +12,7 @@ export function PomodoroProvider({ children }) {
         runningTodo,
         setRunningTodo,
         isRunning,
-        startPomodoro,
-        stopPomodoro,
+        setIsRunning,
       }}>
       {children}
     </PomodoroContext.Provider>

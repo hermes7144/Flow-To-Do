@@ -10,7 +10,7 @@ export default function TodoItem({ todo, completed }) {
   const [name, setName] = useState(todo.name);
   const inputRef = useRef(null);
 
-  const { runningTodo, setRunningTodo, isRunning, startPomodoro } = usePomodoroContext();
+  const { runningTodo, setRunningTodo, isRunning, setIsRunning } = usePomodoroContext();
   const { updateTodo, deleteTodo } = useTodos();
   const handleDelete = deleteTodo.mutate;
 
@@ -48,7 +48,8 @@ export default function TodoItem({ todo, completed }) {
   };
 
   const handleStart = (todo) => {
-    startPomodoro(todo);
+    setRunningTodo(todo);
+    setIsRunning(true);
   };
 
   const handleChange = (e) => {
