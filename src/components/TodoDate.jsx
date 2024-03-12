@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatMonthAndDay, getToday, getTomorrow } from '../js/CommonFunction';
+import { getToday, getTomorrow } from '../js/CommonFunction';
 
 export default function TodoDate({ date }) {
   const today = getToday();
@@ -11,7 +11,7 @@ export default function TodoDate({ date }) {
   } else if (date === tomorrow) {
     displayDate = '내일';
   } else {
-    displayDate = formatMonthAndDay(date);
+    displayDate = new Date(date).toLocaleDateString('ko', { day: 'numeric', month: 'short' });
   }
 
   return <>{displayDate}</>;
