@@ -82,12 +82,12 @@ export default function TodoItem({ todo, completed }) {
           {isRunning && runningTodo?.id === todo.id ? <FaStopwatch className='w-5 h-5' /> : <FaRegPlayCircle className='w-5 h-5' />}
         </button>
         <div className='flex flex-col w-full gap-1'>
-          <input className={`outline-none focus:border focus:border-brand w-full rounded-lg  overflow-ellipsis`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
+          <input className={`outline-none focus:border focus:border-brand w-full rounded-lg overflow-ellipsis`} value={name} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef} />
           <PomodoroIconList estimate={todo.estimate} done={todo.done} />
         </div>
       </div>
       <div className='flex items-center gap-1'>
-        <span className={`w-20 ${todo.deadline < getToday() ? 'text-red-500' : ''}`}>
+        <span className={`w-20 text-center ${todo.deadline < getToday() ? 'text-red-500' : ''}`}>
           <TodoDate date={todo.deadline} />
         </span>
         <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300'>

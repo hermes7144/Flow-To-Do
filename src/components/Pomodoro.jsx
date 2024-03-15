@@ -9,6 +9,17 @@ const REST_TIME = 5 * 60;
 // const POMODORO_TIME = 5;
 // const REST_TIME = 5;
 
+function pomodoroEndAction() {
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    if ('vibrate' in navigator) {
+      navigator.vibrate([200, 100, 200]);
+    }
+  } else {
+    const audio = new Audio('/done.mp3');
+    audio.play();
+  }
+}
+
 export default function Pomodoro() {
   const { addPomodoro } = usePomodoro();
   const { runningTodo, isRunning, setIsRunning } = usePomodoroContext();
@@ -35,7 +46,6 @@ export default function Pomodoro() {
       }
 
       clearInterval(timer);
-      setSeconds(POMODORO_TIME);
       setIsRunning(false);
 
       pomodoroEndAction();
@@ -47,7 +57,6 @@ export default function Pomodoro() {
     clearInterval(timer);
 
     setIsRestRunning(false);
-    setRestSeconds(REST_TIME);
     setIsPomodoroRunning(true);
   };
 
@@ -58,40 +67,48 @@ export default function Pomodoro() {
       setIsPomodoroRunning(true);
 
       timer = setInterval(() => {
-        if (seconds > 0) {
-          setSeconds((prev) => prev - 1);
-        } else {
-          handlePomodoroEnd(timer);
-        }
+        setSeconds((prev) => {
+          if (prev > 0) {
+            return prev - 1;
+          } else {
+            handlePomodoroEnd(timer);
+            return POMODORO_TIME;
+          }
+        });
       }, 1000);
     }
 
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, seconds, handlePomodoroEnd]);
+  }, [isRunning, handlePomodoroEnd]);
 
   useEffect(() => {
     let timer;
 
     if (isRestRunning) {
       timer = setInterval(() => {
-        if (restSeconds > 0) {
-          setRestSeconds((prev) => prev - 1);
-        } else {
-          handleRestEnd();
-          const audio = new Audio('/restDone.mp3');
-          audio.play();
-        }
+        setRestSeconds((prev) => {
+          if (prev > 0) {
+            return prev - 1;
+          } else {
+            const audio = new Audio('/restDone.mp3');
+            audio.play();
+
+            handleRestEnd();
+            return REST_TIME;
+          }
+        });
       }, 1000);
     } else {
       handleRestEnd();
+      setRestSeconds(REST_TIME);
     }
 
     return () => {
       clearInterval(timer);
     };
-  }, [isRestRunning, restSeconds]);
+  }, [isRestRunning]);
 
   const handleReset = () => setSeconds(POMODORO_TIME);
 
@@ -99,12 +116,15 @@ export default function Pomodoro() {
     <div className={`fixed m-2 h-16 -ml-20 bottom-5 left-1/2 rounded-xl flex flex-col justify-center w-36 text-white gap-1 shadow-lg ${isPomodoroRunning ? 'bg-brand' : 'bg-slate-800'}`}>
       <div className='flex justify-around items-center'>
         <span className='text-lg font-bold'>{Math.ceil((isPomodoroRunning ? seconds : restSeconds) / 60)}</span>
-        {isPomodoroRunning && <button onClick={() => setIsRunning((prevState) => !prevState)}>{isRunning ? <FaRegPauseCircle className='w-7 h-7 font-semibold' /> : <FaRegPlayCircle className='w-7 h-7 font-semibold' />}</button>}
-
-        {!isRunning && seconds !== POMODORO_TIME && (
-          <button onClick={handleReset}>
-            <FaRegStopCircle className='w-5 h-5 font-semibold' />
-          </button>
+        {isPomodoroRunning && (
+          <>
+            <button onClick={() => setIsRunning((prevState) => !prevState)}>{isRunning ? <FaRegPauseCircle className='w-7 h-7 font-semibold' /> : <FaRegPlayCircle className='w-7 h-7 font-semibold' />}</button>
+            {!isRunning && seconds !== POMODORO_TIME && (
+              <button onClick={handleReset}>
+                <FaRegStopCircle className='w-5 h-5 font-semibold' />
+              </button>
+            )}
+          </>
         )}
 
         {!isPomodoroRunning && <button onClick={() => setIsRestRunning((prevState) => !prevState)}>{isRestRunning ? <FaRegPauseCircle className='w-7 h-7' /> : <FaRegPlayCircle className='w-7 h-7' />}</button>}
@@ -113,15 +133,4 @@ export default function Pomodoro() {
       {runningTodo?.name && <p className='ml-4 w-28 truncate ...'>{runningTodo?.name}</p>}
     </div>
   );
-}
-
-function pomodoroEndAction() {
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    if ('vibrate' in navigator) {
-      navigator.vibrate([200, 100, 200]);
-    }
-  } else {
-    const audio = new Audio('/done.mp3');
-    audio.play();
-  }
 }
