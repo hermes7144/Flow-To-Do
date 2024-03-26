@@ -17,5 +17,5 @@
 
 ## 수정 및 삭제 기능
 
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/1bb79d70-bf13-4e4d-b86a-6953263365f7" height="100px" width="300px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/1bb79d70-bf13-4e4d-b86a-6953263365f7"  width="500px"></p>
 제목을 클릭하면 할 일의 내용을 수정할 수 있으며, 휴지통 버튼을 클릭해서 할 일을 삭제할 수 있습니다.
