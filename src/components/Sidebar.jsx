@@ -12,7 +12,7 @@ const categories = [
 
 export default function Sidebar({ category, handleSheduleClick }) {
   return (
-    <div className='w-1/6 min-w-60 flex flex-col'>
+    <div className='w-1/6 min-w-60 flex flex-col bg-white shadow-xl' style={{ height: 'calc(100vh - 57px)' }}>
       {categories.map((item) => (
         <SidebarItem key={item.title} item={item} category={category} handleSheduleClick={handleSheduleClick} />
       ))}

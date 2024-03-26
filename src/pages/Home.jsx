@@ -57,7 +57,7 @@ export default function Home() {
       )}
       {/* mobile sidebar */}
       {isHovered && (
-        <div className='absolute z-10 bg-white shadow-xl' style={{ height: 'calc(100vh - 57px)' }} onMouseLeave={handleMouseLeave}>
+        <div className='absolute z-10' onMouseLeave={handleMouseLeave}>
           <Sidebar category={category} handleSheduleClick={handleSheduleClick} />
         </div>
       )}
