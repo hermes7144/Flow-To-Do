@@ -5,8 +5,13 @@ import { AuthProvider } from './context/AuthContext';
 import { PomodoroProvider } from './context/PomodoroContext';
 import { CategoryProvider } from './context/CategoryContext';
 
-const queryClient = new QueryClient();
-
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+})
 function App() {
   return (
     <QueryClientProvider client={queryClient}>

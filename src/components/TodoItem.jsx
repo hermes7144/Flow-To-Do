@@ -90,10 +90,8 @@ export default function TodoItem({ todo, completed }) {
         <span className={`w-20 text-center ${todo.deadline < getToday() ? 'text-red-500' : ''}`}>
           <TodoDate date={todo.deadline} />
         </span>
-        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300'>
-          <button type='button' onClick={() => handleDelete(todo.id)}>
-            <FaRegTrashCan />
-          </button>
+        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300 cursor-pointer' onClick={() => handleDelete(todo.id)}>
+          <FaRegTrashCan />
         </div>
       </div>
     </li>

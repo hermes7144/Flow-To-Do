@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
@@ -44,8 +44,6 @@ export default function Home() {
     setIsHovered(false);
   };
   const toggleSidebar = () => setIsOpen((prevState) => !prevState);
-
-  if (isLoading) return <Loading />;
 
   const activeTodo = filterActiveTodos(category, todos);
   const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
