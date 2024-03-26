@@ -10,17 +10,17 @@ export function getTomorrow() {
 
 export function getThisWeek() {
   const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay();
+  const dayOfWeek = currentDate.getDay() || 7;
   const startDate = new Date(currentDate);
   startDate.setDate(currentDate.getDate() - dayOfWeek);
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + 7);
 
+  const endDate = new Date(formatDate(startDate));
+  endDate.setDate(startDate.getDate() + 7);
   return formatDate(endDate);
 }
 export function getNextWeek() {
   const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay();
+  const dayOfWeek = currentDate.getDay() || 7;
   const nextWeekStart = new Date(currentDate);
   nextWeekStart.setDate(currentDate.getDate() + (8 - dayOfWeek));
   const nextWeekEnd = new Date(nextWeekStart);

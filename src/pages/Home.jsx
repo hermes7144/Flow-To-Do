@@ -1,11 +1,10 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
 import useTodos from '../hooks/useTodos';
 import AddTodo from '../components/AddTodo';
 import Sidebar from '../components/Sidebar';
-import Loading from '../components/Loading';
 import { getDeadline, getToday } from '../js/CommonFunction';
 import { TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
 
@@ -26,7 +25,7 @@ export default function Home() {
   const [category, setCategory] = useState('오늘');
 
   const {
-    productsQuery: { isLoading, data: todos },
+    productsQuery: { data: todos },
   } = useTodos();
 
   const handleSheduleClick = (category) => {
