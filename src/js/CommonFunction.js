@@ -8,27 +8,28 @@ export function getTomorrow() {
   return formatDate(tomorrowDate);
 }
 
-export function getThisWeek() {
-  const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay() || 7;
-  const startDate = new Date(currentDate);
-  startDate.setDate(currentDate.getDate() - dayOfWeek);
+function getWeekRangeRelativeTo(weekOffset) {
+  const date = new Date();
+  const dayOfWeek = date.getDay() || 7;
+  const weekStart = new Date(date);
+  const daysToAdd = (weekOffset * 7) - dayOfWeek + 1;
+  weekStart.setDate(date.getDate() + daysToAdd);
 
-  const endDate = new Date(formatDate(startDate));
-  endDate.setDate(startDate.getDate() + 7);
-  return formatDate(endDate);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+
+  return {
+    start: formatDate(weekStart),
+    end: formatDate(weekEnd)
+  };
 }
-export function getNextWeek() {
-  const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay() || 7;
-  const nextWeekStart = new Date(currentDate);
-  nextWeekStart.setDate(currentDate.getDate() + (8 - dayOfWeek));
-  const nextWeekEnd = new Date(nextWeekStart);
-  nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
 
-  const formattedStartDate = formatDate(nextWeekStart);
-  const formattedEndDate = formatDate(nextWeekEnd);
-  return { start: formattedStartDate, end: formattedEndDate };
+export function getThisWeek() {
+  return getWeekRangeRelativeTo(0); // Get the current week
+}
+
+export function getNextWeek() {
+  return getWeekRangeRelativeTo(1); // Get the next week
 }
 
 function formatDate(date) {
@@ -43,7 +44,7 @@ export function getDeadline(category, includeStart = false) {
     case '내일':
       return getTomorrow();
     case '이번 주':
-      return getThisWeek();
+      return getThisWeek().end;
     case '다음 주':
       const nextWeek = getNextWeek();
       return includeStart ? nextWeek : nextWeek.end;

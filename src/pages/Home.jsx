@@ -6,7 +6,7 @@ import useTodos from '../hooks/useTodos';
 import AddTodo from '../components/AddTodo';
 import Sidebar from '../components/Sidebar';
 import { getDeadline, getToday } from '../js/CommonFunction';
-import { TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
+import SidebarToggle from '../components/SidbarToggle';
 
 function isDeadlineInRange(deadline, start, end) {
   return deadline >= start && deadline <= end;
@@ -42,18 +42,20 @@ export default function Home() {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-  const toggleSidebar = () => setIsOpen((prevState) => !prevState);
+  const toggleSidebar = () => setIsOpen((prev) => !prev);
 
   const activeTodo = filterActiveTodos(category, todos);
   const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
 
   return (
     <div className='flex'>
+      {/* desktop sidebar */}
       {isOpen && (
         <div className='hidden md:block'>
           <Sidebar category={category} handleSheduleClick={handleSheduleClick} />
         </div>
       )}
+      {/* mobile sidebar */}
       {isHovered && (
         <div className='absolute z-10 bg-white shadow-xl' style={{ height: 'calc(100vh - 57px)' }} onMouseLeave={handleMouseLeave}>
           <Sidebar category={category} handleSheduleClick={handleSheduleClick} />
@@ -61,14 +63,7 @@ export default function Home() {
       )}
       <div className='flex-1 p-4 relative bg-gray-100 overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
         <div className='flex items-center gap-2'>
-          <div onMouseEnter={handleMouseEnter} className='block md:hidden'>
-            <TbLayoutSidebarRightExpandFilled className='h-8 w-8 text-gray-300 cursor-pointer' />
-          </div>
-          <div className='hidden md:block'>
-            <button className='text-gray-300 cursor-pointer hover:text-brand hover:opacity-90' onClick={toggleSidebar}>
-              <TbLayoutSidebarRightExpandFilled className={`h-8 w-8 ${isOpen ? '' : 'rotate-180'}`} />
-            </button>
-          </div>
+          <SidebarToggle isOpen={isOpen} toggleSidebar={toggleSidebar} handleMouseEnter={handleMouseEnter} />
           <span className='text-xl font-bold'>{category}</span>
         </div>
         <PomodoroDashBoard activeTodo={activeTodo} completedCount={completedTodo.length} thisWeek={['오늘', '이번 주'].includes(category)} />

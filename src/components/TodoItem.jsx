@@ -21,7 +21,10 @@ export default function TodoItem({ todo, completed }) {
       status: todo.status === 'active' ? 'completed' : 'active',
     });
 
-    if (todo.status === 'active' && runningTodo?.id === todo.id) setRunningTodo(null);
+    if (todo.status === 'active' && runningTodo?.id === todo.id) {
+      setRunningTodo(null);
+      setIsRunning(false);
+    }
   };
 
   const PomodoroIconList = ({ estimate, done }) => {
