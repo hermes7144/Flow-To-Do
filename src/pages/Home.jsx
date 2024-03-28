@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TodoList from './../components/TodoList';
 import Pomodoro from '../components/Pomodoro';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
@@ -23,6 +23,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [category, setCategory] = useState('오늘');
+  const side = useRef();
 
   const {
     productsQuery: { data: todos },
@@ -39,13 +40,26 @@ export default function Home() {
     }, 300);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
   const toggleSidebar = () => setIsOpen((prev) => !prev);
 
   const activeTodo = filterActiveTodos(category, todos);
   const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
+
+  // 사이드바 외부 클릭시 닫히는 함수
+  const handleClose = async (e) => {
+    let sideArea = side.current;
+    let sideCildren = side.current.contains(e.target);
+    if (isHovered && (!sideArea || !sideCildren)) {
+      await setIsHovered(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleClose);
+    return () => {
+      window.removeEventListener('click', handleClose);
+    };
+  });
 
   return (
     <div className='flex'>
@@ -56,11 +70,9 @@ export default function Home() {
         </div>
       )}
       {/* mobile sidebar */}
-      {isHovered && (
-        <div className='absolute z-10' onMouseLeave={handleMouseLeave}>
-          <Sidebar category={category} handleSheduleClick={handleSheduleClick} />
-        </div>
-      )}
+      <div ref={side} className={`${isHovered ? 'absolute' : 'hidden'} z-10`}>
+        <Sidebar category={category} handleSheduleClick={handleSheduleClick} />
+      </div>
       <div className='flex-1 p-4 relative bg-gray-100 overflow-y-auto' style={{ height: 'calc(100vh - 57px)' }}>
         <div className='flex items-center gap-2'>
           <SidebarToggle isOpen={isOpen} toggleSidebar={toggleSidebar} handleMouseEnter={handleMouseEnter} />
