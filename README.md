@@ -1,5 +1,6 @@
 # Flow To-Do
 몰입을 위한 일정관리 앱입니다.
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/eff29581-9029-40da-9dda-5949acb382bd" width="800px"></p>
 
 ## 카테고리별 일정관리
 
