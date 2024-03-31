@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import useTodos from '../hooks/useTodos';
 import KanbanList from './KanbanList';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { getDate } from '../js/CommonFunction';
 
 function filterByDate(todos, date) {
-  if (date < new Date().toISOString().substring(0, 10)) {
-    return todos.filter((todo) => todo.deadline < date && todo.status === 'active');
+  if (date === getDate(-1)) {
+    return todos.filter((todo) => todo.deadline <= date && todo.status === 'active');
   } else {
     return todos.filter((todo) => todo.deadline === date);
   }
@@ -53,8 +54,8 @@ export default function Kanban() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <ul className='flex'>
-        {dates.map((date) => (
-          <KanbanList key={date} date={date} todos={filterByDate(todos, date)} />
+        {dates.map((date, index) => (
+          <KanbanList key={date} date={date} index={index} todos={filterByDate(todos, date)} />
         ))}
       </ul>
     </DragDropContext>

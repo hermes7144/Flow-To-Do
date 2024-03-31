@@ -15,7 +15,7 @@ import {
   serverTimestamp,
   set,
 } from 'firebase/database';
-import { getToday } from '../js/CommonFunction';
+import { getDate } from '../js/CommonFunction';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -78,7 +78,7 @@ export async function removeTodo(uid, todoId) {
 }
 
 export async function getPomodoro(uid) {
-  const date = getToday();
+  const date = getDate();
   return get(ref(database, `pomodoroCounts/${uid}/${date}`)).then(
     (snapshot) => {
       const items = snapshot.val() || 0;
@@ -88,6 +88,6 @@ export async function getPomodoro(uid) {
 }
 
 export async function setPomodoro(uid, pomodoro) {
-  const date = getToday();
+  const date = getDate();
   await set(ref(database, `pomodoroCounts/${uid}/${date}`), pomodoro + 1);
 }

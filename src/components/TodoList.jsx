@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import EmptyTodo from './EmptyTodo';
-import { getToday } from '../js/CommonFunction';
+import { getDate } from '../js/CommonFunction';
 import TodoDate from './TodoDate';
 
 export default function TodoList({ activeTodo, completedTodo, category }) {
@@ -17,7 +17,7 @@ export default function TodoList({ activeTodo, completedTodo, category }) {
             ? activeTodo.map((todo) => <TodoItem key={todo.id} todo={todo} />)
             : activeTodo.map((todo, index) => {
                 if (lastDate === null || todo.deadline > lastDate) {
-                  lastDate = todo.deadline < getToday() ? getToday() : todo.deadline;
+                  lastDate = todo.deadline < getDate() ? getDate() : todo.deadline;
 
                   return (
                     <React.Fragment key={index}>

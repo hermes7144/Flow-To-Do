@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className='flex'>
-      <SidebarCont isOpen={isOpen} isHovered={isHovered} setIsHovered={setIsHovered} category={category} handleSheduleClick={handleSheduleClick} />
+      {view === 'LIST' && <SidebarCont isOpen={isOpen} isHovered={isHovered} setIsHovered={setIsHovered} category={category} handleSheduleClick={handleSheduleClick} />}
       <TodoCont>
         <div className='flex justify-between'>
           {view === 'LIST' ? <TodoHeader isOpen={isOpen} toggleSidebar={toggleSidebar} handleMouseEnter={handleMouseEnter} category={category} view={view} /> : <div></div>}

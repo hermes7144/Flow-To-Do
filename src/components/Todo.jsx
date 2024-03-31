@@ -3,7 +3,7 @@ import TodoList from './../components/TodoList';
 import PomodoroDashBoard from '../components/PomodoroDashBoard';
 import useTodos from '../hooks/useTodos';
 import AddTodo from '../components/AddTodo';
-import { getDeadline, getToday } from '../js/CommonFunction';
+import { getDeadline, getDate } from '../js/CommonFunction';
 
 function isDeadlineInRange(deadline, start, end) {
   return deadline >= start && deadline <= end;
@@ -22,7 +22,7 @@ export default function Todo({ category }) {
   } = useTodos();
 
   const activeTodo = filterActiveTodos(category, todos);
-  const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getToday());
+  const completedTodo = todos.filter((todo) => todo.status === 'completed' && todo.completedDate === getDate());
 
   return (
     <>

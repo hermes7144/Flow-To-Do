@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import useTodos from '../hooks/useTodos';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
-import { getToday } from '../js/CommonFunction';
+import { getDate } from '../js/CommonFunction';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import TodoDate from './TodoDate';
 
@@ -17,7 +17,7 @@ export default function TodoItem({ todo, completed }) {
   const handleUpdate = (todo) => {
     updateTodo.mutate({
       ...todo,
-      completedDate: todo.status === 'active' ? getToday() : '',
+      completedDate: todo.status === 'active' ? getDate() : '',
       status: todo.status === 'active' ? 'completed' : 'active',
     });
 
@@ -90,7 +90,7 @@ export default function TodoItem({ todo, completed }) {
         </div>
       </div>
       <div className='flex items-center gap-1'>
-        <span className={`w-20 text-center ${todo.deadline < getToday() ? 'text-red-500' : ''}`}>
+        <span className='w-20 text-center'>
           <TodoDate date={todo.deadline} />
         </span>
         <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-300 cursor-pointer' onClick={() => handleDelete(todo.id)}>

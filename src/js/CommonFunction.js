@@ -1,13 +1,10 @@
 
 
-export function getToday() {
-  return formatDate(new Date());
-}
 
-export function getTomorrow() {
-  const tomorrowDate = new Date();
-  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-  return formatDate(tomorrowDate);
+export function getDate(offset = 0) {
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + offset);
+  return formatDate(targetDate);
 }
 
 function getWeekRangeRelativeTo(weekOffset) {
@@ -42,9 +39,9 @@ export function getDeadline(category, includeStart = false) {
   switch (category)
   {
     case '오늘':
-      return getToday();
+      return getDate();
     case '내일':
-      return getTomorrow();
+      return getDate(1)
     case '이번 주':
       return getThisWeek().end;
     case '다음 주':

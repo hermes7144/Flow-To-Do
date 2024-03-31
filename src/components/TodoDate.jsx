@@ -1,18 +1,17 @@
 import React from 'react';
-import { getToday, getTomorrow } from '../js/CommonFunction';
+import { getDate } from '../js/CommonFunction';
 
 export default function TodoDate({ date }) {
-  const today = getToday();
-  const tomorrow = getTomorrow();
-
   let displayDate;
-  if (date === today) {
+  if (date === getDate(-1)) {
+    displayDate = '어제';
+  } else if (date === getDate()) {
     displayDate = '오늘';
-  } else if (date === tomorrow) {
+  } else if (date === getDate(1)) {
     displayDate = '내일';
   } else {
     displayDate = new Date(date).toLocaleDateString('ko', { day: 'numeric', month: 'short' });
   }
 
-  return <>{displayDate}</>;
+  return <span className={`${date < getDate() && 'text-red-500'}`}>{displayDate}</span>;
 }

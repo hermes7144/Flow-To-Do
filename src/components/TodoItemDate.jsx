@@ -1,6 +1,6 @@
 import React from 'react';
-import { getToday } from '../js/CommonFunction';
+import { getDate } from '../js/CommonFunction';
 
 export default function TodoItemDate({ deadline }) {
-  return <span className={deadline < getToday() ? 'text-red-500' : ''}></span>;
+  return <span className={deadline < getDate() ? 'text-red-500' : ''}></span>;
 }
