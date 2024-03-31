@@ -26,10 +26,10 @@
 
 ## 뷰 전환 및 칸반 뷰
 
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/e887c696-4d1a-4123-bb6b-8e3b250b078c"  width="500px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/e887c696-4d1a-4123-bb6b-8e3b250b078c"  width="200px"></p>
 
 상단의 ... 버튼을 클릭해 뷰를 전환할 수 있습니다.
 
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/a600548b-42a2-45e4-8973-d54082e73613"  width="500px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/a600548b-42a2-45e4-8973-d54082e73613"  width="800px"></p>
 
 칸반 뷰에서는 오늘부터 일주일까지의 할 일을 확인 할 수 있으며 드래그로 원하는 일자에 할 일을 배치할 수 있습니다.
