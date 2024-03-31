@@ -2,12 +2,13 @@
 몰입을 위한 일정관리 앱입니다.
 
 ## 로그인
-![image](https://github.com/hermes7144/Flow-To-Do/assets/46180611/cb0d8989-d04e-41cb-96c5-1333d3753dec)
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/cb0d8989-d04e-41cb-96c5-1333d3753dec" width="400px"></p>
+
 상단의 로그인 버튼을 누르면 구글 계정 로그인 팝업이 열립니다.
 
 ## 카테고리별 일정관리
 
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/6958e48b-ced5-43d6-a45f-da6130def992" width="800px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/9e5b8ced-5c89-4ce0-baa2-c90ecf4339da" width="800px"></p>
 오늘, 내일, 이번주, 다음주 일정을 확인할 수 있습니다.
 선택한 일정에 따라서 할 일의 기한이 정해지며 뽀모도로를 등록할 수 있습니다.
 셋팅한 뽀모도로를 바탕으로 예정시간이 표시되며 완료한 뽀모도로로 완료한 시간을 측정할 수 있습니다.
