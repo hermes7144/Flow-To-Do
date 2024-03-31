@@ -7,7 +7,7 @@
 
 ## 카테고리별 일정관리
 
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/b12b58d1-a751-4553-84d8-cffbee5231ed" width="800px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/6958e48b-ced5-43d6-a45f-da6130def992" width="800px"></p>
 오늘, 내일, 이번주, 다음주 일정을 확인할 수 있습니다.
 선택한 일정에 따라서 할 일의 기한이 정해지며 뽀모도로를 등록할 수 있습니다.
 셋팅한 뽀모도로를 바탕으로 예정시간이 표시되며 완료한 뽀모도로로 완료한 시간을 측정할 수 있습니다.
