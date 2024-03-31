@@ -1,6 +1,9 @@
 # Flow To-Do
 몰입을 위한 일정관리 앱입니다.
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/eff29581-9029-40da-9dda-5949acb382bd" width="800px"></p>
+
+## 로그인
+![image](https://github.com/hermes7144/Flow-To-Do/assets/46180611/cb0d8989-d04e-41cb-96c5-1333d3753dec)
+상단의 로그인 버튼을 누르면 구글 계정 로그인 팝업이 열립니다.
 
 ## 카테고리별 일정관리
 
