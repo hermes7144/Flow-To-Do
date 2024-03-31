@@ -5,7 +5,7 @@ import TodoDate from './TodoDate';
 
 export default function KanbanList({ date, index, todos }) {
   return (
-    <li className='flex flex-col m-1 p-1 min-w-64 text-xs'>
+    <li className='flex flex-col m-1 p-1 min-w-80'>
       <span className='font-bold'>{index === 0 ? '기한 초과' : <TodoDate date={date} />}</span>
       <Droppable droppableId={date}>
         {(provided, snapshot) => (

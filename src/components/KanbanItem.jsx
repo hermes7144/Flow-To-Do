@@ -38,7 +38,7 @@ export default function KanbanItem({ todo, index }) {
             <button className={` text-brand ${todo.status === 'completed' ? 'opacity-50' : 'opacity-80'}`} onClick={() => handleStart(todo)} disabled={todo.status === 'completed'}>
               {isRunning && runningTodo?.id === todo.id ? <FaStopwatch className='w-4 h-4' /> : <FaRegPlayCircle className='w-4 h-4' />}
             </button>
-            <div className='flex flex-col gap-1 text-xs w-10/12'>
+            <div className='flex flex-col gap-1 w-10/12'>
               <p className='overflow-hidden w-full line-clamp-2'>{todo.name}</p>
 
               <TodoDate date={todo.deadline} />
