@@ -9,7 +9,7 @@ export default function NonModal({ show, handleOptionClick, handleViewClick }) {
   };
 
   return (
-    <div className={`z-10 h-16 w-24 bg-white shadow-lg top-28 right-5 rounded-lg p-1 ${show ? 'absolute' : 'hidden'}`}>
+    <div className={`z-10 h-16 w-24 bg-white shadow-lg top-24 right-3 rounded-lg p-1 ${show ? 'absolute' : 'hidden'}`}>
       <div className='text-gray-400 text-sm text-left p-1'>뷰</div>
       <div className='flex gap-2 text-gray-500'>
         <button className='hover:bg-gray-200' onClick={() => handleClick('LIST')}>

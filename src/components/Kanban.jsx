@@ -4,7 +4,11 @@ import KanbanList from './KanbanList';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 function filterByDate(todos, date) {
-  return todos.filter((todo) => todo.deadline === date);
+  if (date < new Date().toISOString().substring(0, 10)) {
+    return todos.filter((todo) => todo.deadline < date && todo.status === 'active');
+  } else {
+    return todos.filter((todo) => todo.deadline === date);
+  }
 }
 
 export default function Kanban() {
@@ -18,7 +22,7 @@ export default function Kanban() {
   const currentDate = new Date();
   const dates = Array.from({ length: 7 }, (_, i) => {
     const tempDate = new Date(currentDate);
-    tempDate.setDate(currentDate.getDate() + i);
+    tempDate.setDate(currentDate.getDate() + i - 1);
     return tempDate.toISOString().substring(0, 10);
   });
 

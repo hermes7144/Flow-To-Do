@@ -4,11 +4,17 @@ import TodoDate from './TodoDate';
 import useTodos from '../hooks/useTodos';
 import { usePomodoroContext } from '../context/PomodoroContext';
 import { getToday } from '../js/CommonFunction';
+import { FaRegPlayCircle, FaStopwatch } from 'react-icons/fa';
 
 export default function KanbanItem({ todo, index }) {
-  const { runningTodo, setRunningTodo, setIsRunning } = usePomodoroContext();
+  const { isRunning, runningTodo, setRunningTodo, setIsRunning } = usePomodoroContext();
 
   const { updateTodo } = useTodos();
+
+  const handleStart = (todo) => {
+    setRunningTodo(todo);
+    setIsRunning(true);
+  };
 
   const handleUpdate = (todo) => {
     updateTodo.mutate({
@@ -24,18 +30,22 @@ export default function KanbanItem({ todo, index }) {
   };
 
   return (
-    <Draggable draggableId={todo.id} index={index}>
-      {(provided) => (
-        <div className='flex bg-white rounded-lg gap-2 m-1 shadow-md' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-          <div className='ml-1 mt-1'>
+    <div>
+      <Draggable draggableId={todo.id} index={index}>
+        {(provided) => (
+          <div className='flex items-center bg-white rounded-lg gap-1 m-1 p-1 shadow-md' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             <input type='checkbox' onClick={() => handleUpdate(todo)} checked={todo.status === 'completed'} />
+            <button className={` text-brand ${todo.status === 'completed' ? 'opacity-50' : 'opacity-80'}`} onClick={() => handleStart(todo)} disabled={todo.status === 'completed'}>
+              {isRunning && runningTodo?.id === todo.id ? <FaStopwatch className='w-4 h-4' /> : <FaRegPlayCircle className='w-4 h-4' />}
+            </button>
+            <div className='flex flex-col gap-1 text-xs w-10/12'>
+              <p className='overflow-hidden w-full line-clamp-2'>{todo.name}</p>
+
+              <TodoDate date={todo.deadline} />
+            </div>
           </div>
-          <div className='flex flex-col text-xs'>
-            <div className='outline-none w-full  overflow-ellipsis'>{todo.name}</div>
-            <TodoDate date={todo.deadline} />
-          </div>
-        </div>
-      )}
-    </Draggable>
+        )}
+      </Draggable>
+    </div>
   );
 }

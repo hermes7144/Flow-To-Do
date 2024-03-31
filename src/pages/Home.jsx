@@ -41,7 +41,8 @@ export default function Home() {
       <SidebarCont isOpen={isOpen} isHovered={isHovered} setIsHovered={setIsHovered} category={category} handleSheduleClick={handleSheduleClick} />
       <TodoCont>
         <div className='flex justify-between'>
-          <TodoHeader isOpen={isOpen} toggleSidebar={toggleSidebar} handleMouseEnter={handleMouseEnter} category={category} view={view} />
+          {view === 'LIST' ? <TodoHeader isOpen={isOpen} toggleSidebar={toggleSidebar} handleMouseEnter={handleMouseEnter} category={category} view={view} /> : <div></div>}
+
           <button className='hover:bg-gray-200 p-1' onClick={() => setShowOption((prev) => !prev)}>
             <BsThreeDots className='h-6 w-6 text-gray-300' />
           </button>
