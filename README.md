@@ -2,7 +2,7 @@
 몰입을 위한 일정관리 앱입니다.
 
 ## 로그인
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/cb0d8989-d04e-41cb-96c5-1333d3753dec" width="400px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/cb0d8989-d04e-41cb-96c5-1333d3753dec" width="500px"></p>
 
 상단의 로그인 버튼을 누르면 구글 계정 로그인 팝업이 열립니다.
 
@@ -25,8 +25,7 @@
 제목을 클릭하면 할 일의 내용을 수정할 수 있으며, 휴지통 버튼을 클릭해서 할 일을 삭제할 수 있습니다.
 
 ## 뷰 전환 및 칸반 뷰
-
-<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/e887c696-4d1a-4123-bb6b-8e3b250b078c"  width="200px"></p>
+<p align="center"><img src="https://github.com/hermes7144/Flow-To-Do/assets/46180611/f244f334-edf4-482b-b2a9-e44433ad26b3"  width="500px"></p>
 
 상단의 ... 버튼을 클릭해 뷰를 전환할 수 있습니다.
 
